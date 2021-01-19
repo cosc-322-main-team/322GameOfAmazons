@@ -1,0 +1,9 @@
+
+*.xml
+*.lst
+*.iml
+team-01/target/maven-archiver/pom.properties
+team-01/.idea
+*.class
+*.jar
+team-01/.idea/*

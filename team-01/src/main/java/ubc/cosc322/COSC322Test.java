@@ -22,7 +22,8 @@ public class COSC322Test extends GamePlayer{
 	
     private String userName = null;
     private String passwd = null;
- 
+    //Can change when we want. Just picked this for now
+ 	private String roomName = "Okanagan Lake";
 	
     /**
      * The main method
@@ -61,20 +62,22 @@ public class COSC322Test extends GamePlayer{
 
     @Override
     public void onLogin() {
-    	System.out.println("Congratualations!!! "
-    			+ "I am called because the server indicated that the login is successfully");
-    	System.out.println("The next step is to find a room and join it: "
-    			+ "the gameClient instance created in my constructor knows how!"); 
+		// Warmup-01
+		// Print room list
+		System.out.println(gameClient.getRoomList());
+		// Join room (arbitrary, we can make a scanner to take in input if we want)
+		gameClient.joinRoom(roomName);
+
     }
 
     @Override
     public boolean handleGameMessage(String messageType, Map<String, Object> msgDetails) {
     	//This method will be called by the GameClient when it receives a game-related message
     	//from the server.
-	
+		System.out.println(msgDetails);
     	//For a detailed description of the message types and format, 
     	//see the method GamePlayer.handleGameMessage() in the game-client-api document. 
-    	    	
+		//https://people.ok.ubc.ca/yongg/teaching/cosc322/project-and-assignments/cosc322-game-client-2.1/game-client-api-2021/ubc/cosc322/COSC322Test.html#handleGameMessage(java.lang.String,java.util.Map)
     	return true;   	
     }
     
