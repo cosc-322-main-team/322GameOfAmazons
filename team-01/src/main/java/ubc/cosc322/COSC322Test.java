@@ -73,7 +73,9 @@ public class COSC322Test extends GamePlayer{
     	//from the server.
 	
     	//For a detailed description of the message types and format, 
-    	//see the method GamePlayer.handleGameMessage() in the game-client-api document. 
+		//see the method GamePlayer.handleGameMessage() in the game-client-api document. 
+		
+		// This is a sample addition from JP - commit 1
     	    	
     	return true;   	
     }
