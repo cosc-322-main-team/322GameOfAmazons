@@ -64,7 +64,7 @@ public class COSC322Test extends GamePlayer{
     public void onLogin() {
 		// Warmup-01
 		// Print room list
-		System.out.println(gameClient.getRoomList());
+		System.out.println("The list of rooms is " + gameClient.getRoomList());
 		// Join room (arbitrary, we can make a scanner to take in input if we want)
 		gameClient.joinRoom(roomName);
 
@@ -74,7 +74,7 @@ public class COSC322Test extends GamePlayer{
     public boolean handleGameMessage(String messageType, Map<String, Object> msgDetails) {
     	//This method will be called by the GameClient when it receives a game-related message
     	//from the server.
-		System.out.println(msgDetails);
+		System.out.println("The message details are "+ msgDetails);
     	//For a detailed description of the message types and format, 
     	//see the method GamePlayer.handleGameMessage() in the game-client-api document. 
 		//https://people.ok.ubc.ca/yongg/teaching/cosc322/project-and-assignments/cosc322-game-client-2.1/game-client-api-2021/ubc/cosc322/COSC322Test.html#handleGameMessage(java.lang.String,java.util.Map)
