@@ -76,6 +76,8 @@ public class COSC322Test extends GamePlayer{
 		//see the method GamePlayer.handleGameMessage() in the game-client-api document. 
 		
 		// This is a sample addition from JP - commit 1
+
+		// This is another addition - commit 2
     	    	
     	return true;   	
     }
