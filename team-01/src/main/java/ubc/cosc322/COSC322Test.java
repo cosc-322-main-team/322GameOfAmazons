@@ -89,8 +89,8 @@ public class COSC322Test extends GamePlayer {
 			- Gao
 		 	*/
             ArrayList<Integer> queenCurrent = (ArrayList<Integer>) msgDetails.get("AmazonsGameMessage.QUEEN_POS_CURR");
-            ArrayList<Integer> queenNew = (ArrayList<Integer>) msgDetails.get("AmazonsGameMessage.QUEEN_POS_CURR");
-            ArrayList<Integer> arrow = (ArrayList<Integer>) msgDetails.get("AmazonsGameMessage.QUEEN_POS_CURR");
+            ArrayList<Integer> queenNew = (ArrayList<Integer>) msgDetails.get("AmazonsGameMessage.QUEEN_POS_NEXT");
+            ArrayList<Integer> arrow = (ArrayList<Integer>) msgDetails.get("AmazonsGameMessage.ARROW_POS");
 
             gamegui.updateGameState(queenCurrent, queenNew, arrow);
         }
