@@ -9,6 +9,7 @@ import sfs2x.client.entities.Room;
 import ygraph.ai.smartfox.games.BaseGameGUI;
 import ygraph.ai.smartfox.games.GameClient;
 import ygraph.ai.smartfox.games.GamePlayer;
+import ygraph.ai.smartfox.games.amazons.HumanPlayer;
 
 /**
  * An example illustrating how to implement a GamePlayer
@@ -30,6 +31,9 @@ public class COSC322Test extends GamePlayer {
      * @param args for name and passwd (current, any string would work)
      */
     public static void main(String[] args) {
+        // To play as a human player, uncomment the below line and comment the COSC322 instantiation line
+        // HumanPlayer player = new HumanPlayer();
+        // To play as a spectator, uncomment this line and comment the one above
         COSC322Test player = new COSC322Test(args[0], args[1]);
 
         if (player.getGameGUI() == null) {
