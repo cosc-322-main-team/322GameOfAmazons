@@ -66,7 +66,6 @@ public class COSC322Test extends GamePlayer {
         if (gamegui != null) {
             gamegui.setRoomInformation(gameClient.getRoomList());
         }
-
     }
 
     @Override
