@@ -56,6 +56,7 @@ public class COSC322Test extends GamePlayer {
 
         //To make a GUI-based player, create an instance of BaseGameGUI
         //and implement the method getGameGUI() accordingly
+        gamegui = new BaseGameGUI(this);
     }
 
 
@@ -112,8 +113,7 @@ public class COSC322Test extends GamePlayer {
 
     @Override
     public BaseGameGUI getGameGUI() {
-        // TODO Auto-generated method stub
-        return null;
+        return gamegui;
     }
 
     @Override
