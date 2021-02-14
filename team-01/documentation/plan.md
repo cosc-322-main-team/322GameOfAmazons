@@ -1,10 +1,7 @@
 ## Proposed Project Implementation Plan and Timeline
-| Step # | Description | Deadline | Assignee(s) |
-|:-:|:-:|:-:|:-:|
-| 1 | Code the most basic algorithm we can, as a proof of concept:    Algorithm: make a random legal move, then shoot the arrow at a random legal location    Test the algorithm against a human player | Feb 17 |  |
-| 2 | Research what algorithm could be used to make a smart player. Propose your findings in a markdown file under the documentation folder.  | Feb 18 | Everyone |
-| 3 | Read all the proposed solutions, meet to pick one | Feb 19 | Everyone |
-| 4 | Begin implementing picked solution | Feb 23 |  |
-| 5 | Build and submit progress report | Feb 25 |  |
-
-Note that each of the above will have to be broken down into smaller issues which we can assign to people 
+| Step # | Description | Pair prog / solo task | Deadline | Assignee(s) |
+|:-:|:-:|-|:-:|:-:|
+| 0 | Familiarize ourselves with the API used: https://people.ok.ubc.ca/yongg/teaching/cosc322/project-and-assignments/cosc322-game-client-2.1/game-client-api-2021/index.html   Also, read Dr. Mueller section 6 (see link on Gao's website) | Solo | Feb 18 | Everyone |
+| 1 | code the most basic algorithm we can, as a proof of concept:    Algorithm: make a random legal move, then shoot the arrow at a random legal location    Test the algorithm against a human player | Pair prog  MEETING: Feb 18 1-2 PM  (extended after that for available people) | Feb 18 | Everyone |
+| 2 | Research Monte Carlo and explain techniques we looked into using | 2 people | Feb 21 | Rylan, JP |
+| 3 | Build and submit progress report. Content: what we did so far with the code etc, research done in step 2, plan for the future | Solo | Feb 22 | Guy |
