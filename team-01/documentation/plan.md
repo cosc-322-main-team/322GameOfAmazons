@@ -6,3 +6,5 @@
 | 3 | Read all the proposed solutions, meet to pick one | Feb 19 | Everyone |
 | 4 | Begin implementing picked solution | Feb 23 |  |
 | 5 | Build and submit progress report | Feb 25 |  |
+
+Note that each of the above will have to be broken down into smaller issues which we can assign to people 
