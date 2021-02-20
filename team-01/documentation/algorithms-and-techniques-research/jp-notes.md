@@ -12,7 +12,7 @@ The diagram below helps understand the mechanics of that technique.
 
 ## Monte Carlo Tree Search, as applied to the Game of Amazons
 
-# Other techniques we considered using
+# Other techniques we considered using, and why we decided to go with MCTS
 Another technique we have considered using is the min-distance evaluation function detailed in [Dr. Martin Muller's paper](http://library.msri.org/books/Book42/files/muller.pdf). This technique is interesting and, according to the author, effective: "A similar pattern became apparent in the Second Computer-Amazons championship in which [our program] participated and took third place". As the author explains, however, this algorithm also has disadvantages: "However, against aggressive human players and programs, such as Jens Lieberum’s Amazong, Arrow gets into trouble quickly". For this reason, we thought it would be interesting to explore using Monte Carlo Tree Search.
 
 Additionally, there does not seem to be a very large amount of information to be found online when searching for uses of the Monte Carlo Tree Search method to play the Game of Amazons. We managed to find two papers: https://link.springer.com/chapter/10.1007/978-3-540-87608-3_2 and https://www.sciencedirect.com/science/article/pii/S1877050915025417, and that second one actually applies to MCTS method to a variant of the game called Knight-Amazons. Therefore, we thought it would be interesting to give this technique a try.
