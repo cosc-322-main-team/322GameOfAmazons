@@ -10,6 +10,6 @@ The diagram below helps understand the mechanics of that technique.
 
 ![A digram showing the four steps of Monte Carlo Tree Search](https://upload.wikimedia.org/wikipedia/commons/thumb/2/21/MCTS-steps.svg/2880px-MCTS-steps.svg.png)
 
-## Monte Carlo Tree Search, as applied to the Game of Amazons.
+## Monte Carlo Tree Search, as applied to the Game of Amazons
 
 # Other techniques we considered using
