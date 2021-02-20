@@ -1,7 +1,7 @@
 # Monte-Carlo Techniques: Applications to the Game of Amazons by Julien Kloetzer
 ## Chapter 3 Monte-Carlo and the game of the Amazons
 
-"For the Monte-Calro method to give a good approximation of a value we need . . . it is possible to apply Monte-Carlo with a good confidence to compute a broad number of values."
+"For the Monte-Carlo method to give a good approximation of a value we need . . . it is possible to apply Monte-Carlo with a good confidence to compute a broad number of values."
 (Kloetzer, 20)
 
 Pseudo Code section can be found at (Kloetzer, 21)
