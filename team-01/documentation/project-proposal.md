@@ -18,9 +18,9 @@ Of course, having this run on every team member’s machine is beneficial. To al
 
 Once we finished the warmup tasks, we took time to understand the rules of the game. We wanted to ensure that everyone can understand how the game is meant to be played before implementing a working algorithm. Currently, the group can play the game following the proper rules.
 
-Next, we finished the research on what algorithm we want to use. Based on the research we collectively decided as a group we want to implement the Monte Carlo Search Tree algorithm.
+Next, we finished the research on what algorithm we want to use. Based on the research we collectively decided as a group we want to implement the Monte Carlo Tree Search algorithm.
 
-Lastly, we were able to create a new class called randomPlayer. This player can make a random move each time. This is going to serve as our starting point for implementing the Monte Carlo Search Tree algorithm.
+Lastly, we were able to create a new class called randomPlayer. This player can make a random move each time. This is going to serve as our starting point for implementing the Monte Carlo Tree Search algorithm.
 
 ## Task Seperation and Responsabilties. 
 We have split up several tasks among five people to reach the first project milestone. Firstly, Logan and Jean-Philippe started by completing both of the warmup tasks. This was a crucial point as it allowed the group to make sure we can run the program. Next, Jaden led peer programming sessions as we started to make modifications to the player class. After getting more familiar with the program, JP and Rylan started to compile research and compare which algorithm to use. Lastly, Guy took all the information and put it together in the form of a report.
@@ -44,9 +44,7 @@ The diagram below helps understand the mechanics of that technique.
 
 We found [a paper] which seems to be especially well-suited to our needs (https://dspace.jaist.ac.jp/dspace/bitstream/10119/8867/7/paper.pdf). In it, the author, Julien Kloetzer, dedicates a whole section to applying the MCTS method to the game of Amazons. In that section, before detailing his algorithm, he states that: "[I]t is possible to apply Monte-Carlo with a good confidence to compute a broad number of values" (Kloetzer, 20). This gives us hope as to the potential of using the MCTS method for our project.
 
-The author then explains his algorithm. While the details of it are beyond the scope of this report, we expect to inspire our final algorithm off of the pseudocode he provides on page 21, which we have copied below.
-
-(NOTE TO GUY: Can you please replace this note with a screenshot of the algorithm in the pdf we are handing in?)
+The author then explains his algorithm. While the details of it are beyond the scope of this report, we expect to pull inspiration for our final algorithm from the pseudocode provided on page 21, which we have attached above.
 
 What the algorithm above does is the following. It starts at a given position, which is a game state. Then, it iterates over all possible moves m from that position. For each move, which results in a position P, it then plays N number of games, where N is an input to the algorithm. For each playout, it picks random moves starting from the same position P. Every time it reaches the end of a playout, it increments the value of the move m. The amount by which the value of the move m is incremented depends on whether the playout resulted in a win, a loss, or a draw. Finally, it divides the value of the move m by the number of simulated games, so that the value of the move m becomes a probability of winning. Finally, it plays the move with the highest probability of winning.
 
