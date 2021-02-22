@@ -1,4 +1,3 @@
-
 *.xml
 *.lst
 *.iml
@@ -7,3 +6,4 @@ team-01/.idea
 *.class
 *.jar
 team-01/.idea/*
+*.DS_Store
