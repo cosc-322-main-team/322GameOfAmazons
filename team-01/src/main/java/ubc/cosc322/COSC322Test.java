@@ -14,8 +14,7 @@ import ygraph.ai.smartfox.games.amazons.HumanPlayer;
 /**
  * An example illustrating how to implement a GamePlayer
  *
- * @author Yong Gao (yong.gao@ubc.ca)
- * Jan 5, 2021
+ * @author Yong Gao (yong.gao@ubc.ca) Jan 5, 2021
  */
 public class COSC322Test extends GamePlayer {
 
@@ -31,11 +30,12 @@ public class COSC322Test extends GamePlayer {
      * @param args for name and passwd (current, any string would work)
      */
     public static void main(String[] args) {
-        // To play as a human player, uncomment the below line and comment the COSC322 instantiation line
+        // To play as a human player, uncomment the below line and comment the COSC322
+        // instantiation line
         // HumanPlayer player = new HumanPlayer();
         // To play as a spectator, uncomment this line and comment the one above
-        // COSC322Test player = new COSC322Test(args[0], args[1]);
-        RandomPlayer player = new RandomPlayer();
+        COSC322Test player = new COSC322Test(args[0], args[1]);
+        // RandomPlayer player = new RandomPlayer();
 
         if (player.getGameGUI() == null) {
             player.Go();
@@ -59,11 +59,10 @@ public class COSC322Test extends GamePlayer {
         this.userName = userName;
         this.passwd = passwd;
 
-        //To make a GUI-based player, create an instance of BaseGameGUI
-        //and implement the method getGameGUI() accordingly
+        // To make a GUI-based player, create an instance of BaseGameGUI
+        // and implement the method getGameGUI() accordingly
         gamegui = new BaseGameGUI(this);
     }
-
 
     @Override
     public void onLogin() {
@@ -76,34 +75,33 @@ public class COSC322Test extends GamePlayer {
 
     @Override
     public boolean handleGameMessage(String messageType, Map<String, Object> msgDetails) {
-    	/*
-    	This method will be called by the GameClient when it receives a game-related message
-    	from the server.
-		System.out.println("The message details are "+ msgDetails);
-    	For a detailed description of the message types and format,
-    	see the method GamePlayer.handleGameMessage() in the game-client-api document.
-    	- Gao
-		*/
-        if (messageType.equals("GameMessage.GAME_STATE_BOARD")) {
-            ArrayList<Integer> gameState = (ArrayList<Integer>) msgDetails.get("AmazonsGameMessage.GAME_STATE");
+        /*
+         * This method will be called by the GameClient when it receives a game-related
+         * message from the server. System.out.println("The message details are "+
+         * msgDetails); For a detailed description of the message types and format, see
+         * the method GamePlayer.handleGameMessage() in the game-client-api document. -
+         * Gao
+         */
+        if (messageType.equals("cosc322.game-state.board")) {
+            ArrayList<Integer> gameState = (ArrayList<Integer>) msgDetails.get("game-state");
             gamegui.setGameState(gameState);
-        } else if (messageType.equals("GameMessage.GAME_ACTION_MOVE")) {
-			/*
-			In a game player, upon receiving this message about your opponent's move, you will also need to calculate
-			your move and send your move to the server using the method GameClient.sendMoveMessage(...) (these are the
-			core tasks of this project you will have to by the middle of March)
-			- Gao
-		 	*/
-            ArrayList<Integer> queenCurrent = (ArrayList<Integer>) msgDetails.get("AmazonsGameMessage.QUEEN_POS_CURR");
-            ArrayList<Integer> queenNew = (ArrayList<Integer>) msgDetails.get("AmazonsGameMessage.QUEEN_POS_NEXT");
-            ArrayList<Integer> arrow = (ArrayList<Integer>) msgDetails.get("AmazonsGameMessage.ARROW_POS");
+        } else if (messageType.equals("cosc322.game-action.move")) {
+            /*
+             * In a game player, upon receiving this message about your opponent's move, you
+             * will also need to calculate your move and send your move to the server using
+             * the method GameClient.sendMoveMessage(...) (these are the core tasks of this
+             * project you will have to by the middle of March) - Gao
+             */
+            ArrayList<Integer> queenCurrent = (ArrayList<Integer>) msgDetails.get("queen-position-current");
+            ArrayList<Integer> queenNew = (ArrayList<Integer>) msgDetails.get("queen-position-next");
+            ArrayList<Integer> arrow = (ArrayList<Integer>) msgDetails.get("arrow-position");
 
             gamegui.updateGameState(queenCurrent, queenNew, arrow);
+        } else if (messageType.equals("cosc322.game-action.start")) {
+            // Not handling GameMessage.Game_Action_Start yet.
         }
-        // Not handling GameMessage.Game_Action_Start yet.
         return true;
     }
-
 
     @Override
     public String userName() {
@@ -127,5 +125,4 @@ public class COSC322Test extends GamePlayer {
         gameClient = new GameClient(userName, passwd, this);
     }
 
-
-}//end of class
+}// end of class
