@@ -15,6 +15,10 @@ public class RandomPlayer extends GamePlayer {
   private GameClient gameClient = null;
   private BaseGameGUI gameGUI = null;
 
+  public RandomPlayer() {
+    gameGUI = new BaseGameGUI(this);
+  }
+
   @Override
   public void onLogin() {
     // userName = gameClient.getUserName();
@@ -25,19 +29,19 @@ public class RandomPlayer extends GamePlayer {
 
   @Override
   public boolean handleGameMessage(String messageType, Map<String, Object> msgDetails) {
-    if (messageType.equals("GameMessage.GAME_STATE_BOARD")) {
-      gameState = (ArrayList<Integer>) msgDetails.get("AmazonsGameMessage.GAME_STATE");
+    if (messageType.equals("cosc322.game-state.board")) {
+      gameState = (ArrayList<Integer>) msgDetails.get("game-state");
       gameGUI.setGameState(gameState);
-    } else if (messageType.equals("GameMessage.GAME_ACTION_MOVE")) {
+    } else if (messageType.equals("cosc322.game-action.move")) {
       /*
        * In a game player, upon receiving this message about your opponent's move, you
        * will also need to calculate your move and send your move to the server using
        * the method GameClient.sendMoveMessage(...) (these are the core tasks of this
        * project you will have to by the middle of March) - Gao
        */
-      ArrayList<Integer> queenCurrent = (ArrayList<Integer>) msgDetails.get("AmazonsGameMessage.QUEEN_POS_CURR");
-      ArrayList<Integer> queenNew = (ArrayList<Integer>) msgDetails.get("AmazonsGameMessage.QUEEN_POS_NEXT");
-      ArrayList<Integer> arrow = (ArrayList<Integer>) msgDetails.get("AmazonsGameMessage.ARROW_POS");
+      ArrayList<Integer> queenCurrent = (ArrayList<Integer>) msgDetails.get("queen-position-current");
+      ArrayList<Integer> queenNew = (ArrayList<Integer>) msgDetails.get("queen-position-next");
+      ArrayList<Integer> arrow = (ArrayList<Integer>) msgDetails.get("arrow-position");
 
       gameGUI.updateGameState(queenCurrent, queenNew, arrow);
 
