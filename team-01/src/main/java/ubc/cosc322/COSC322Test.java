@@ -34,8 +34,8 @@ public class COSC322Test extends GamePlayer {
         // instantiation line
         // HumanPlayer player = new HumanPlayer();
         // To play as a spectator, uncomment this line and comment the one above
-        COSC322Test player = new COSC322Test(args[0], args[1]);
-        // RandomPlayer player = new RandomPlayer();
+        // COSC322Test player = new COSC322Test(args[0], args[1]);
+        RandomPlayer player = new RandomPlayer();
 
         if (player.getGameGUI() == null) {
             player.Go();
