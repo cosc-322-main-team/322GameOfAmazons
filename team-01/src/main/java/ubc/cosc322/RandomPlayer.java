@@ -7,6 +7,7 @@ import java.util.Arrays;
 import ygraph.ai.smartfox.games.BaseGameGUI;
 import ygraph.ai.smartfox.games.GameClient;
 import ygraph.ai.smartfox.games.GamePlayer;
+import ygraph.ai.smartfox.games.amazons.AmazonsBoard;
 
 public class RandomPlayer extends GamePlayer {
   private final String userName = "RANDOM_PLAYER";
@@ -15,6 +16,8 @@ public class RandomPlayer extends GamePlayer {
   private ArrayList<Integer> gameState = new ArrayList<>();
   private GameClient gameClient = null;
   private BaseGameGUI gameGUI = null;
+
+  private AmazonsActionFactory actionFactory = new AmazonsActionFactory();
 
   public RandomPlayer() {
     gameGUI = new BaseGameGUI(this);
@@ -30,6 +33,7 @@ public class RandomPlayer extends GamePlayer {
 
   @Override
   public boolean handleGameMessage(String messageType, Map<String, Object> msgDetails) {
+    System.out.println(msgDetails);
     if (messageType.equals("cosc322.game-state.board")) {
       gameState = (ArrayList<Integer>) msgDetails.get("game-state");
       gameGUI.setGameState(gameState);
@@ -51,9 +55,16 @@ public class RandomPlayer extends GamePlayer {
   private void moveRandom() {
     // Board Format: [Row, Column], bottom left corner is [1, 1]
 
-    ArrayList<Integer> myQueenCurrent = new ArrayList<Integer>(Arrays.asList(10, 4));
-    ArrayList<Integer> myQueenTarget = new ArrayList<Integer>(Arrays.asList(7, 4));
-    ArrayList<Integer> myArrowTarget = new ArrayList<Integer>(Arrays.asList(7, 7));
+    // Static Move:
+    // ArrayList<Integer> myQueenCurrent = new ArrayList<Integer>(Arrays.asList(10, 4));
+    // ArrayList<Integer> myQueenTarget = new ArrayList<Integer>(Arrays.asList(7, 4));
+    // ArrayList<Integer> myArrowTarget = new ArrayList<Integer>(Arrays.asList(7, 7));
+
+    // Random Move:
+    AmazonsAction[] actions = actionFactory.getActions(gameState);
+    ArrayList<Integer> myQueenCurrent = actions[0].queenCurrent;
+    ArrayList<Integer> myQueenTarget = actions[0].queenTarget;
+    ArrayList<Integer> myArrowTarget = actions[0].arrowTarget;
 
     gameClient.sendMoveMessage(myQueenCurrent, myQueenTarget, myArrowTarget);
     gameGUI.updateGameState(myQueenCurrent, myQueenTarget, myArrowTarget);
