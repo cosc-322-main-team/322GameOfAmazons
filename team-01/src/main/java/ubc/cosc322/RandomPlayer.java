@@ -2,6 +2,7 @@ package ubc.cosc322;
 
 import java.util.Map;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import ygraph.ai.smartfox.games.BaseGameGUI;
 import ygraph.ai.smartfox.games.GameClient;
@@ -33,23 +34,29 @@ public class RandomPlayer extends GamePlayer {
       gameState = (ArrayList<Integer>) msgDetails.get("game-state");
       gameGUI.setGameState(gameState);
     } else if (messageType.equals("cosc322.game-action.move")) {
-      /*
-       * In a game player, upon receiving this message about your opponent's move, you
-       * will also need to calculate your move and send your move to the server using
-       * the method GameClient.sendMoveMessage(...) (these are the core tasks of this
-       * project you will have to by the middle of March) - Gao
-       */
       ArrayList<Integer> queenCurrent = (ArrayList<Integer>) msgDetails.get("queen-position-current");
       ArrayList<Integer> queenNew = (ArrayList<Integer>) msgDetails.get("queen-position-next");
       ArrayList<Integer> arrow = (ArrayList<Integer>) msgDetails.get("arrow-position");
 
       gameGUI.updateGameState(queenCurrent, queenNew, arrow);
 
-      // TODO: implement move
-      // gameClient.sendMoveMessage(queenCurrent, queenPosNew, arrowPos);
+      // Move the player
+      moveRandom();
+    } else if (messageType.equals("cosc322.game-action.start")) {
+      // Not handling GameMessage.Game_Action_Start yet.
     }
-    // Not handling GameMessage.Game_Action_Start yet.
     return true;
+  }
+
+  private void moveRandom() {
+    // Board Format: [Row, Column], bottom left corner is [1, 1]
+
+    ArrayList<Integer> myQueenCurrent = new ArrayList<Integer>(Arrays.asList(10, 4));
+    ArrayList<Integer> myQueenTarget = new ArrayList<Integer>(Arrays.asList(7, 4));
+    ArrayList<Integer> myArrowTarget = new ArrayList<Integer>(Arrays.asList(7, 7));
+
+    gameClient.sendMoveMessage(myQueenCurrent, myQueenTarget, myArrowTarget);
+    gameGUI.updateGameState(myQueenCurrent, myQueenTarget, myArrowTarget);
   }
 
   @Override
