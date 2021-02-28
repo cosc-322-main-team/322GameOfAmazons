@@ -56,14 +56,16 @@ public class RandomPlayer extends GamePlayer {
     // Board Format: [Row, Column], bottom left corner is [1, 1]
 
     AmazonsAction[] actions = actionFactory.getActions(board.getState());
-    ArrayList<Integer> myQueenCurrent = actions[0].queenCurrent;
-    ArrayList<Integer> myQueenTarget = actions[0].queenTarget;
-    ArrayList<Integer> myArrowTarget = actions[0].arrowTarget;
+    int randomIndex = (int) (Math.random() * (actions.length + 1));
 
-    board.updateState(myQueenCurrent, myQueenTarget, myArrowTarget);
-    gameGUI.updateGameState(myQueenCurrent, myQueenTarget, myArrowTarget);
-    
-    gameClient.sendMoveMessage(myQueenCurrent, myQueenTarget, myArrowTarget);
+    ArrayList<Integer> queenCurrent = actions[randomIndex].queenCurrent;
+    ArrayList<Integer> queenTarget = actions[randomIndex].queenTarget;
+    ArrayList<Integer> arrowTarget = actions[randomIndex].arrowTarget;
+
+    board.updateState(queenCurrent, queenTarget, arrowTarget);
+    gameGUI.updateGameState(queenCurrent, queenTarget, arrowTarget);
+
+    gameClient.sendMoveMessage(queenCurrent, queenTarget, arrowTarget);
   }
 
   @Override
