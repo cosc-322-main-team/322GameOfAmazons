@@ -62,9 +62,11 @@ public class RandomPlayer extends GamePlayer {
 
     // Random Move:
     AmazonsAction[] actions = actionFactory.getActions(gameState);
-    ArrayList<Integer> myQueenCurrent = actions[0].queenCurrent;
-    ArrayList<Integer> myQueenTarget = actions[0].queenTarget;
-    ArrayList<Integer> myArrowTarget = actions[0].arrowTarget;
+    int randomIndex = (int)(Math.random() * (actions.length + 1));
+
+    ArrayList<Integer> myQueenCurrent = actions[randomIndex].queenCurrent;
+    ArrayList<Integer> myQueenTarget = actions[randomIndex].queenTarget;
+    ArrayList<Integer> myArrowTarget = actions[randomIndex].arrowTarget;
 
     gameClient.sendMoveMessage(myQueenCurrent, myQueenTarget, myArrowTarget);
     gameGUI.updateGameState(myQueenCurrent, myQueenTarget, myArrowTarget);
