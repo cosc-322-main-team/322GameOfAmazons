@@ -2,18 +2,16 @@ package ubc.cosc322;
 
 import java.util.Map;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 import ygraph.ai.smartfox.games.BaseGameGUI;
 import ygraph.ai.smartfox.games.GameClient;
 import ygraph.ai.smartfox.games.GamePlayer;
-import ygraph.ai.smartfox.games.amazons.AmazonsBoard;
 
 public class RandomPlayer extends GamePlayer {
   private final String userName = "RANDOM_PLAYER";
   private final String password = "RANDOM_PASS";
 
-  private ArrayList<Integer> gameState = new ArrayList<>();
+  private AmazonsLocalBoard board = new AmazonsLocalBoard();
   private GameClient gameClient = null;
   private BaseGameGUI gameGUI = null;
 
@@ -35,16 +33,17 @@ public class RandomPlayer extends GamePlayer {
   public boolean handleGameMessage(String messageType, Map<String, Object> msgDetails) {
     System.out.println(msgDetails);
     if (messageType.equals("cosc322.game-state.board")) {
-      gameState = (ArrayList<Integer>) msgDetails.get("game-state");
+      ArrayList<Integer> gameState = (ArrayList<Integer>) msgDetails.get("game-state");
+      board.setState(gameState);
       gameGUI.setGameState(gameState);
     } else if (messageType.equals("cosc322.game-action.move")) {
       ArrayList<Integer> queenCurrent = (ArrayList<Integer>) msgDetails.get("queen-position-current");
-      ArrayList<Integer> queenNew = (ArrayList<Integer>) msgDetails.get("queen-position-next");
-      ArrayList<Integer> arrow = (ArrayList<Integer>) msgDetails.get("arrow-position");
+      ArrayList<Integer> queenTarget = (ArrayList<Integer>) msgDetails.get("queen-position-next");
+      ArrayList<Integer> arrowTarget = (ArrayList<Integer>) msgDetails.get("arrow-position");
 
-      gameGUI.updateGameState(queenCurrent, queenNew, arrow);
+      board.updateState(queenCurrent, queenTarget, arrowTarget);
+      gameGUI.updateGameState(queenCurrent, queenTarget, arrowTarget);
 
-      // Move the player
       moveRandom();
     } else if (messageType.equals("cosc322.game-action.start")) {
       // Not handling GameMessage.Game_Action_Start yet.
@@ -55,21 +54,17 @@ public class RandomPlayer extends GamePlayer {
   private void moveRandom() {
     // Board Format: [Row, Column], bottom left corner is [1, 1]
 
-    // Static Move:
-    // ArrayList<Integer> myQueenCurrent = new ArrayList<Integer>(Arrays.asList(10, 4));
-    // ArrayList<Integer> myQueenTarget = new ArrayList<Integer>(Arrays.asList(7, 4));
-    // ArrayList<Integer> myArrowTarget = new ArrayList<Integer>(Arrays.asList(7, 7));
+    AmazonsAction[] actions = actionFactory.getActions(board.getState());
+    int randomIndex = (int) (Math.random() * (actions.length + 1));
 
-    // Random Move:
-    AmazonsAction[] actions = actionFactory.getActions(gameState);
-    int randomIndex = (int)(Math.random() * (actions.length + 1));
+    ArrayList<Integer> queenCurrent = actions[randomIndex].queenCurrent;
+    ArrayList<Integer> queenTarget = actions[randomIndex].queenTarget;
+    ArrayList<Integer> arrowTarget = actions[randomIndex].arrowTarget;
 
-    ArrayList<Integer> myQueenCurrent = actions[randomIndex].queenCurrent;
-    ArrayList<Integer> myQueenTarget = actions[randomIndex].queenTarget;
-    ArrayList<Integer> myArrowTarget = actions[randomIndex].arrowTarget;
+    board.updateState(queenCurrent, queenTarget, arrowTarget);
+    gameGUI.updateGameState(queenCurrent, queenTarget, arrowTarget);
 
-    gameClient.sendMoveMessage(myQueenCurrent, myQueenTarget, myArrowTarget);
-    gameGUI.updateGameState(myQueenCurrent, myQueenTarget, myArrowTarget);
+    gameClient.sendMoveMessage(queenCurrent, queenTarget, arrowTarget);
   }
 
   @Override
