@@ -6,33 +6,23 @@ import java.util.ArrayList;
 public class AmazonsActionFactory {
   public ArrayList<AmazonsAction> getActions(ArrayList<Integer> state) {
     ArrayList<AmazonsAction> list = new ArrayList();
-    ArrayList<Integer> allQueens= getAllQueenCurrents();
+    ArrayList<ArrayList<Integer>> allQueens= getAllQueenCurrents();
 
     while(!allQueens.isEmpty()) {
-      int queenX = allQueens.remove(0);
-      int queenY = allQueens.remove(0);
 
-      ArrayList<Integer> queenCurrent = new ArrayList();
-      queenCurrent.add(queenX);
-      queenCurrent.add(queenY);
+      ArrayList<Integer> queenCurrent= allQueens.remove(0);
 
-      ArrayList<Integer> allQueenTargets = getTargets(queenX, queenY);
+      ArrayList<ArrayList<Integer>> allQueenTargets = getTargets(queenCurrent.get(0), queenCurrent.get(1));
+
       while(!allQueenTargets.isEmpty()) {
-        int queenTargetX = allQueenTargets.remove(0);
-        int queenTargetY = allQueenTargets.remove(0);
 
-        ArrayList<Integer> queenTarget = new ArrayList();
-        queenTarget.add(queenTargetX);
-        queenTarget.add(queenTargetY);
+        ArrayList<Integer> queenTarget = allQueenTargets.remove(0);
 
-        ArrayList<Integer> allArrowTargets = getTargets(queenTargetX, queenTargetY);
+        ArrayList<ArrayList<Integer>> allArrowTargets = getTargets(queenTarget.get(0), queenTarget.get(1));
+
         while(!allArrowTargets.isEmpty()){
-          int arrowTargetX = allArrowTargets.remove(0);
-          int arrowTargetY = allArrowTargets.remove(0);
 
-          ArrayList<Integer> arrowTarget = new ArrayList();
-          arrowTarget.add(arrowTargetX);
-          arrowTarget.add(arrowTargetY);
+          ArrayList<Integer> arrowTarget = allArrowTargets.remove(0);
 
           AmazonsAction newAction = new AmazonsAction(queenCurrent, queenTarget, arrowTarget);
           list.add(newAction);
@@ -47,27 +37,32 @@ public class AmazonsActionFactory {
     //2 Calculate diagonal moves
     return false;
   }
-  private ArrayList<Integer> getAllQueenCurrents(){
-    ArrayList<Integer> queenCurrents = new ArrayList();
+  private ArrayList<ArrayList<Integer>> getAllQueenCurrents(){
+    ArrayList<ArrayList<Integer>>  queenCurrents = new ArrayList();
     for(int i = 0; i < 10; i++) {
       for (int j = 0; j < 10; i++) {
         if(state.position(i,j) == 2){
           //Create an arraylist for the queens current position
-          queenCurrents.add(i);
-          queenCurrents.add(j);
+          ArrayList<Integer> queenPosition = new ArrayList();
+          queenPosition.add(i);
+          queenPosition.add(j);
+          queenCurrents.add(queenPosition);
+
         }
       }
     }
     return queenCurrents;
   }
-  private ArrayList<Integer> getTargets(int startPositionX, int startPositionY) {
+  private ArrayList<ArrayList<Integer>> getTargets(int startPositionX, int startPositionY) {
     //Possible queen moves, is gonna call get arrow
-    ArrayList<Integer> targets = new ArrayList();
+    ArrayList<ArrayList<Integer>> targets = new ArrayList();
     for(int targetPositionX = 0; targetPositionX < 10; targetPositionX++){
       for(int targetPositionY = 0; targetPositionY < 10; targetPositionY++){
         if(state.position(targetPositionX, targetPositionY) == 0 && withinMoves(startPositionX, startPositionY, targetPositionX,targetPositionY)) {
-          targets.add(targetPositionX);
-          targets.add(targetPositionY);
+          ArrayList<Integer> targetPosition = new ArrayList();
+          targetPosition.add(targetPositionX);
+          targetPosition.add(targetPositionY);
+          targets.add(targetPosition);
         }
       }
     }
