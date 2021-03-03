@@ -45,8 +45,8 @@ public class AmazonsActionFactory {
   private ArrayList<ArrayList<Integer>> getAllQueenCurrents(AmazonsLocalBoard board){
     ArrayList<ArrayList<Integer>>  queenCurrents = new ArrayList();
     //Iterating through the entire board finding each queen position.
-    for(int i = 0; i < 10; i++) {
-      for (int j = 0; j < 10; j++) {
+    for(int i = 1; i <= 10; i++) {
+      for (int j = 1; j <= 10; j++) {
         ArrayList<Integer> position = new ArrayList(Arrays.asList(i,j));
         //The queen position value can be 3 or 2 depending on if our queens are white or black.
         if(board.getPositionValue(position) == 2){
@@ -59,8 +59,8 @@ public class AmazonsActionFactory {
   private ArrayList<ArrayList<Integer>> getTargets(int x, int y, AmazonsLocalBoard board) {
     ArrayList<ArrayList<Integer>> targets = new ArrayList();
     //Iterating a board finding all open target positions for either a queen move or an arrow move.
-    for(int i = 0; i < 10; i++){
-      for(int j = 0; j < 10; j++){
+    for(int i = 1; i <= 10; i++){
+      for(int j = 1; j <= 10; j++){
         ArrayList<Integer> position = new ArrayList(Arrays.asList(i,j));
         //Checking if the target position is open and if it is within moves.
         if(board.getPositionValue(position) == 0 && withinMoves(x, y, i, j)) {
