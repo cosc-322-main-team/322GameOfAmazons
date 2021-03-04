@@ -46,8 +46,8 @@ public class RandomPlayer extends GamePlayer {
 
       moveRandom();
     } else if (messageType.equals("cosc322.game-action.start")) {
-      String playerwhite = (String) msgDetails.get("player-white");
-      if (playerwhite.equals(this.userName)) {
+      String whitePlayer = (String) msgDetails.get("player-white");
+      if (whitePlayer.equals(this.userName)) {
         board.localPlayer = 1;
       } else {
         board.localPlayer = 2;

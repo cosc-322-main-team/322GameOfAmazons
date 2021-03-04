@@ -87,6 +87,8 @@ public class AmazonsActionFactory {
         //Iterating a board finding all open target positions for either a queen move or an arrow move.
         for (int i = 1; i <= 10; i++) {
             for (int j = 1; j <= 10; j++) {
+                if (i == x && j == y) continue;
+
                 ArrayList<Integer> position = new ArrayList(Arrays.asList(i, j));
                 //Checking if the target position is open and if it is within moves.
                 if (board.getPositionValue(position) == 0 && isWithinMoves(x, y, i, j, board)) {
