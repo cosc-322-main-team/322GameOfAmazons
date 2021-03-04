@@ -55,6 +55,7 @@ public class AmazonsLocalBoard {
             // Oh Lord, please forgive my sins
             System.out.println(state.subList(i * ROW_LENGTH + 12, (i + 1) * ROW_LENGTH + 11));
         }
+        System.out.println();
     }
 
     private int getIndex(ArrayList<Integer> position) {
