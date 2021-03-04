@@ -16,6 +16,8 @@ public class AmazonsLocalBoard {
     private static final int TOTAL_LENGTH = 121;
     private static final int ROW_LENGTH = 11;
 
+    public int localPlayer = -1;
+
     private ArrayList<Integer> state = new ArrayList<>();
 
     public ArrayList<Integer> getState() {

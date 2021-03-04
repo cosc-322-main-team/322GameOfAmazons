@@ -15,8 +15,6 @@ public class RandomPlayer extends GamePlayer {
   private GameClient gameClient = null;
   private BaseGameGUI gameGUI = null;
 
-  private int playerColor;
-
   private AmazonsActionFactory actionFactory = new AmazonsActionFactory();
 
   public RandomPlayer() {
@@ -49,10 +47,10 @@ public class RandomPlayer extends GamePlayer {
       moveRandom();
     } else if (messageType.equals("cosc322.game-action.start")) {
       String playerwhite = (String) msgDetails.get("player-white");
-      if(playerwhite.equals(this.userName)){
-        playerColor = 1;
-      }else{
-        playerColor = 2;
+      if (playerwhite.equals(this.userName)) {
+        board.localPlayer = 1;
+      } else {
+        board.localPlayer = 2;
       }
     }
     return true;

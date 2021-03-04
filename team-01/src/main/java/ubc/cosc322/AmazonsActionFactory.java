@@ -73,8 +73,8 @@ public class AmazonsActionFactory {
         for (int i = 1; i <= 10; i++) {
             for (int j = 1; j <= 10; j++) {
                 ArrayList<Integer> position = new ArrayList(Arrays.asList(i, j));
-                //The queen position value can be 3 or 2 depending on if our queens are white or black.
-                if (board.getPositionValue(position) == 2) {
+                //The queen position value can be 1 or 2 depending on if our queens are white or black.
+                if (board.getPositionValue(position) == board.localPlayer) {
                     queenCurrents.add(position);
                 }
             }
