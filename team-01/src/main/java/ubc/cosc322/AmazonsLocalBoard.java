@@ -41,7 +41,7 @@ public class AmazonsLocalBoard {
     }
 
     public int getPositionValue(int x, int y) {
-        return state.get(getIndex(new ArrayList<>(Arrays.asList(x, y))));
+        return getPositionValue(new ArrayList<>(Arrays.asList(x, y)));
     }
 
     public void setPositionValue(ArrayList<Integer> position, int value) {
