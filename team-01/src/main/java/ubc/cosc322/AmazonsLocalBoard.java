@@ -28,8 +28,9 @@ public class AmazonsLocalBoard {
 
   public void updateState(ArrayList<Integer> queenCurrent, ArrayList<Integer> queenTarget,
       ArrayList<Integer> arrowTarget) {
+    int playerColor = getPositionValue(queenCurrent);
     setPositionValue(queenCurrent, 0);
-    setPositionValue(queenTarget, 1);
+    setPositionValue(queenTarget, playerColor);
     setPositionValue(arrowTarget, 3);
     printState();
   }
