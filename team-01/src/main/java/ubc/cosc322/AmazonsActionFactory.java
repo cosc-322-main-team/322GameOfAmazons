@@ -37,10 +37,33 @@ public class AmazonsActionFactory {
         return list;
     }
 
-    private boolean isWithinMoves(int queenX, int queenY, int x, int y) {
-        //1 Calculate vertical and horizontal moves
-        //2 Calculate diagonal moves
-        //3 Make sure path is clear.
+    private boolean isWithinMoves(int queenX, int queenY, int targetX, int targetY, AmazonsLocalBoard board) {
+        // Check if position is within reach of queen
+        boolean isInOrthogonalReach = queenX == targetX || queenY == targetY;
+        boolean isInDiagonalReach = Math.abs(queenX - targetX) == Math.abs(queenY - targetY);
+        boolean isWithinReach = isInDiagonalReach || isInOrthogonalReach;
+
+        // Check if path is clear and return
+        return isWithinReach && isPathClear(queenX, queenY, targetX, targetY, board);
+    }
+
+    private boolean isPathClear(int queenX, int queenY, int targetX, int targetY, AmazonsLocalBoard board) {
+        // Initialize currentX and currentY to queen position
+        int currX = queenX;
+        int currY = queenY;
+
+        // While we haven't reached the target
+        while (currX != targetX || currY != targetY) {
+            // Advance towards the target by 1, regardless of whether target is
+            // above, below, on the right or on the left of queen, or how far the target is
+            currX += Math.signum(targetX - currX);
+            currY += Math.signum(targetY - currY);
+
+            // If we find an obstacle, return false
+            if (board.getPositionValue(currX, currY) != 0) return false;
+        }
+
+        // No obstacle found! The path is clear.
         return true;
     }
 
@@ -66,7 +89,7 @@ public class AmazonsActionFactory {
             for (int j = 1; j <= 10; j++) {
                 ArrayList<Integer> position = new ArrayList(Arrays.asList(i, j));
                 //Checking if the target position is open and if it is within moves.
-                if (board.getPositionValue(position) == 0 && isWithinMoves(x, y, i, j)) {
+                if (board.getPositionValue(position) == 0 && isWithinMoves(x, y, i, j, board)) {
                     targets.add(position);
                 }
             }
