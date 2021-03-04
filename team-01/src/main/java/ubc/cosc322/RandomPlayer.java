@@ -54,12 +54,12 @@ public class RandomPlayer extends GamePlayer {
   private void moveRandom() {
     // Board Format: [Row, Column], bottom left corner is [1, 1]
 
-    AmazonsAction[] actions = actionFactory.getActions(board.getState());
-    int randomIndex = (int) (Math.random() * (actions.length + 1));
+    ArrayList<AmazonsAction> actions = actionFactory.getActions(board);
+    int randomIndex = (int) (Math.random() * (actions.size() + 1));
 
-    ArrayList<Integer> queenCurrent = actions[randomIndex].queenCurrent;
-    ArrayList<Integer> queenTarget = actions[randomIndex].queenTarget;
-    ArrayList<Integer> arrowTarget = actions[randomIndex].arrowTarget;
+    ArrayList<Integer> queenCurrent = actions.get(randomIndex).queenCurrent;
+    ArrayList<Integer> queenTarget = actions.get(randomIndex).queenTarget;
+    ArrayList<Integer> arrowTarget = actions.get(randomIndex).arrowTarget;
 
     board.updateState(queenCurrent, queenTarget, arrowTarget);
     gameGUI.updateGameState(queenCurrent, queenTarget, arrowTarget);
