@@ -41,7 +41,7 @@ public class AmazonsActionFactory {
         // Check if position is within reach of queen
         boolean isInOrthogonalReach = queenX == targetX || queenY == targetY;
         boolean isInDiagonalReach = Math.abs(queenX - targetX) == Math.abs(queenY - targetY);
-        boolean isWithinReach = isInDiagonalReach || isInOrthogonalReach;
+        boolean isWithinReach = isInOrthogonalReach || isInDiagonalReach;
 
         // Check if path is clear and return
         return isWithinReach && isPathClear(queenX, queenY, targetX, targetY, board);
