@@ -55,7 +55,6 @@ public class RandomPlayer extends GamePlayer {
         playerColor = 2;
       }
     }
-
     return true;
   }
 
