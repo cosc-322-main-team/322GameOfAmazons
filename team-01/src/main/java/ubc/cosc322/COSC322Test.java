@@ -20,7 +20,7 @@ public class COSC322Test extends GamePlayer {
 
     private GameClient gameClient = null;
     private BaseGameGUI gamegui = null;
-    
+
     private String userName = null;
     private String passwd = null;
 
