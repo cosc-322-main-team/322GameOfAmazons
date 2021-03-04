@@ -37,7 +37,7 @@ public class AmazonsActionFactory {
         return list;
     }
 
-    private boolean withinMoves(int queenX, int queenY, int x, int y) {
+    private boolean isWithinMoves(int queenX, int queenY, int x, int y) {
         //1 Calculate vertical and horizontal moves
         //2 Calculate diagonal moves
         //3 Make sure path is clear.
