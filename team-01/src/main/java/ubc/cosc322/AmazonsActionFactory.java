@@ -66,7 +66,7 @@ public class AmazonsActionFactory {
             for (int j = 1; j <= 10; j++) {
                 ArrayList<Integer> position = new ArrayList(Arrays.asList(i, j));
                 //Checking if the target position is open and if it is within moves.
-                if (board.getPositionValue(position) == 0 && withinMoves(x, y, i, j)) {
+                if (board.getPositionValue(position) == 0 && isWithinMoves(x, y, i, j)) {
                     targets.add(position);
                 }
             }
