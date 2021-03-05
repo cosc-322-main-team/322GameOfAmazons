@@ -1,0 +1,7 @@
+{
+  "[java]": {
+    "editor.defaultFormatter": "redhat.java"
+  },
+  "java.format.settings.url": "https://raw.githubusercontent.com/cosc-322-main-team/322GameOfAmazons/main/style.xml",
+  "java.format.settings.profile": "GoogleStyle"
+}

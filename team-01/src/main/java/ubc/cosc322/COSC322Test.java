@@ -75,8 +75,8 @@ public class COSC322Test extends GamePlayer {
 	@Override
 	public boolean handleGameMessage(String messageType, Map<String, Object> msgDetails) {
 		/*
-		 * This method will be called by the GameClient when it receives a game-related message from the server. System.out.println("The message details are "+ msgDetails); For a detailed description
-		 * of the message types and format, see the method GamePlayer.handleGameMessage() in the game-client-api document. - Gao
+		 * This method will be called by the GameClient when it receives a game-related message from the server. System.out.println("The message details are "+ msgDetails); For a detailed description of
+		 * the message types and format, see the method GamePlayer.handleGameMessage() in the game-client-api document. - Gao
 		 */
 		if (messageType.equals("cosc322.game-state.board")) {
 			ArrayList<Integer> gameState = (ArrayList<Integer>) msgDetails.get("game-state");
