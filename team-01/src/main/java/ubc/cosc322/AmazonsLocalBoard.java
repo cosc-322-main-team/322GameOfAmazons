@@ -5,12 +5,9 @@ import java.util.Arrays;
 
 public class AmazonsLocalBoard {
 	/*
-	 * ADVENTURERS BE WARNED: Gao stores the game state as a list of integers
-	 * representing a 2D grid. But don't be fooled: this foul grid also includes 11
-	 * spaces of unused tiles at the start of the array, and 1 blasphemous unused
-	 * tile at the start of each row. In fact, the unholy rituals required to access
-	 * a specific index of this grid are so unspeakable that attempting to even
-	 * calculate such an index requires divine intervention. Proceed with caution.
+	 * ADVENTURERS BE WARNED: Gao stores the game state as a list of integers representing a 2D grid. But don't be fooled: this foul grid also includes 11 spaces of unused tiles at the start of the
+	 * array, and 1 blasphemous unused tile at the start of each row. In fact, the unholy rituals required to access a specific index of this grid are so unspeakable that attempting to even calculate
+	 * such an index requires divine intervention. Proceed with caution.
 	 */
 
 	private static final int TOTAL_LENGTH = 121;
