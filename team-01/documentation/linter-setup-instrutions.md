@@ -24,7 +24,8 @@ That's it! Now pull the latest on main, try to lint, and nothing should change.
 
 # Intellij IDEA
 
-Setup:
+Setup:  
+
 0. Pull the latest from main to have the styles.xml file locally. 
 1. Open intellij
 2. Open the preferences
