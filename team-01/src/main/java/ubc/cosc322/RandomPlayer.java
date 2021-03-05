@@ -21,14 +21,16 @@ public class RandomPlayer extends GamePlayer {
 		gameGUI = new BaseGameGUI(this);
 	}
 
-	@Override public void onLogin() {
+	@Override
+	public void onLogin() {
 		// userName = gameClient.getUserName();
 		if (gameGUI != null) {
 			gameGUI.setRoomInformation(gameClient.getRoomList());
 		}
 	}
 
-	@Override public boolean handleGameMessage(String messageType, Map<String, Object> msgDetails) {
+	@Override
+	public boolean handleGameMessage(String messageType, Map<String, Object> msgDetails) {
 		System.out.println(msgDetails);
 		if (messageType.equals("cosc322.game-state.board")) {
 			ArrayList<Integer> gameState = (ArrayList<Integer>) msgDetails.get("game-state");
@@ -70,19 +72,23 @@ public class RandomPlayer extends GamePlayer {
 		gameClient.sendMoveMessage(queenCurrent, queenTarget, arrowTarget);
 	}
 
-	@Override public String userName() {
+	@Override
+	public String userName() {
 		return userName;
 	}
 
-	@Override public GameClient getGameClient() {
+	@Override
+	public GameClient getGameClient() {
 		return gameClient;
 	}
 
-	@Override public BaseGameGUI getGameGUI() {
+	@Override
+	public BaseGameGUI getGameGUI() {
 		return gameGUI;
 	}
 
-	@Override public void connect() {
+	@Override
+	public void connect() {
 		gameClient = new GameClient(userName, password, this);
 	}
 }
