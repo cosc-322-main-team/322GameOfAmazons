@@ -37,5 +37,6 @@ Setup:
 8. Click OK
 9. In the "Tabs and Indents" tab, check the "Use tab character" option
 10. Set tab size to 4 instead of 2
+11. In the "Wrapping and Braces" tab, search for "Method annotations" and change that setting to "wrap always"
 
 You're done. Pull the latest from main, format the code, and nothing should change. 
