@@ -1,4 +1,3 @@
-
 package ubc.cosc322;
 
 import java.util.ArrayList;
@@ -64,8 +63,7 @@ public class COSC322Test extends GamePlayer {
 		gamegui = new BaseGameGUI(this);
 	}
 
-	@Override
-	public void onLogin() {
+	@Override public void onLogin() {
 		// Warmup-02
 		userName = gameClient.getUserName();
 		if (gamegui != null) {
@@ -73,8 +71,7 @@ public class COSC322Test extends GamePlayer {
 		}
 	}
 
-	@Override
-	public boolean handleGameMessage(String messageType, Map<String, Object> msgDetails) {
+	@Override public boolean handleGameMessage(String messageType, Map<String, Object> msgDetails) {
 		/*
 		 * This method will be called by the GameClient when it receives a game-related
 		 * message from the server. System.out.println("The message details are "+
@@ -103,24 +100,20 @@ public class COSC322Test extends GamePlayer {
 		return true;
 	}
 
-	@Override
-	public String userName() {
+	@Override public String userName() {
 		return userName;
 	}
 
-	@Override
-	public GameClient getGameClient() {
+	@Override public GameClient getGameClient() {
 		// TODO Auto-generated method stub
 		return this.gameClient;
 	}
 
-	@Override
-	public BaseGameGUI getGameGUI() {
+	@Override public BaseGameGUI getGameGUI() {
 		return gamegui;
 	}
 
-	@Override
-	public void connect() {
+	@Override public void connect() {
 		// TODO Auto-generated method stub
 		gameClient = new GameClient(userName, passwd, this);
 	}

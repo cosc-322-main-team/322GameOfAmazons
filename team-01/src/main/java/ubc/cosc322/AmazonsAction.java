@@ -7,8 +7,7 @@ public class AmazonsAction {
 	public ArrayList<Integer> queenTarget;
 	public ArrayList<Integer> arrowTarget;
 
-	public AmazonsAction(ArrayList<Integer> queenCurrent, ArrayList<Integer> queenTarget,
-						 ArrayList<Integer> arrowTarget) {
+	public AmazonsAction(ArrayList<Integer> queenCurrent, ArrayList<Integer> queenTarget, ArrayList<Integer> arrowTarget) {
 		this.queenCurrent = queenCurrent;
 		this.queenTarget = queenTarget;
 		this.arrowTarget = arrowTarget;
