@@ -23,4 +23,4 @@ Game of Amazons project for COSC 322
 
 
 ## Formating
-- [Linting with IntelliJ](https://github.com/cosc-322-main-team/322GameOfAmazons/blob/main/team-01/documentation/linter-setup-instrutions.md)
+- [Linting](https://github.com/cosc-322-main-team/322GameOfAmazons/blob/main/team-01/documentation/linter-setup-instrutions.md)
