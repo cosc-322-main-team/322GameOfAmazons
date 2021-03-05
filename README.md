@@ -22,5 +22,5 @@ Game of Amazons project for COSC 322
 ![Build Config](Images/RunConfig.png)
 
 
-# How to run with Eclipse
-- Not sure, I use intelliJ so if one of you eclipse freaks wants to fill this out go for it
+## Formating
+- [Linting with IntelliJ](https://github.com/cosc-322-main-team/322GameOfAmazons/blob/main/team-01/documentation/linter-setup-instrutions.md)
