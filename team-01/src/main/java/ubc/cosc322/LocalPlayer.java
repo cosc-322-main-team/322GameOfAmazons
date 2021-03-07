@@ -33,7 +33,7 @@ public abstract class LocalPlayer extends GamePlayer {
     return actionFactory.getActions(board);
   }
 
-  /** Used to send a move to the server and update the local state accordingly. */
+  /** Sends a move to the server and updates the local state accordingly. */
   protected void sendMove(ArrayList<Integer> queenCurrent, ArrayList<Integer> queenTarget, ArrayList<Integer> arrowTarget) {
     board.updateState(queenCurrent, queenTarget, arrowTarget);
     gameGUI.updateGameState(queenCurrent, queenTarget, arrowTarget);
