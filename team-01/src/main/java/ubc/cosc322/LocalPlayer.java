@@ -14,8 +14,8 @@ public abstract class LocalPlayer extends GamePlayer {
   private GameClient gameClient = null;
   private BaseGameGUI gameGUI = null;
 
-  protected AmazonsLocalBoard board = new AmazonsLocalBoard();
-  protected AmazonsActionFactory actionFactory = new AmazonsActionFactory();
+  private AmazonsLocalBoard board = new AmazonsLocalBoard();
+  private AmazonsActionFactory actionFactory = new AmazonsActionFactory();
 
   public LocalPlayer(String username, String password) {
     this.username = username;
@@ -27,6 +27,11 @@ public abstract class LocalPlayer extends GamePlayer {
 
   /** Called when the player receives a move message from the server. */
   protected abstract void onMoveReceived();
+
+  /** Returns the list of actions that can be taken from the current state. */
+  protected ArrayList<AmazonsAction> getAvailableActions() {
+    return actionFactory.getActions(board);
+  }
 
   /** Used to send a move to the server and update the local state accordingly. */
   protected void sendMove(ArrayList<Integer> queenCurrent, ArrayList<Integer> queenTarget, ArrayList<Integer> arrowTarget) {
