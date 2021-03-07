@@ -1,12 +1,11 @@
 package ubc.cosc322;
 
-
 import java.util.Arrays;
 import java.util.ArrayList;
 
 public class AmazonsActionFactory {
 	public ArrayList<AmazonsAction> getActions(AmazonsLocalBoard board) {
-		ArrayList<AmazonsAction> list = new ArrayList();
+		ArrayList<AmazonsAction> list = new ArrayList<AmazonsAction>();
 		// Double array list initialized to store queen current positions
 		ArrayList<ArrayList<Integer>> allQueens = getAllQueenCurrents(board);
 
@@ -69,11 +68,11 @@ public class AmazonsActionFactory {
 	}
 
 	private ArrayList<ArrayList<Integer>> getAllQueenCurrents(AmazonsLocalBoard board) {
-		ArrayList<ArrayList<Integer>> queenCurrents = new ArrayList();
+		ArrayList<ArrayList<Integer>> queenCurrents = new ArrayList<ArrayList<Integer>>();
 		// Iterating through the entire board finding each queen position.
 		for (int i = 1; i <= 10; i++) {
 			for (int j = 1; j <= 10; j++) {
-				ArrayList<Integer> position = new ArrayList(Arrays.asList(i, j));
+				ArrayList<Integer> position = new ArrayList<Integer>(Arrays.asList(i, j));
 				// The queen position value can be 1 or 2 depending on if our queens are white or black.
 				if (board.getPositionValue(position) == board.localPlayer) {
 					queenCurrents.add(position);
@@ -84,14 +83,14 @@ public class AmazonsActionFactory {
 	}
 
 	private ArrayList<ArrayList<Integer>> getTargets(int x, int y, AmazonsLocalBoard board) {
-		ArrayList<ArrayList<Integer>> targets = new ArrayList();
+		ArrayList<ArrayList<Integer>> targets = new ArrayList<ArrayList<Integer>>();
 		// Iterating a board finding all open target positions for either a queen move or an arrow move.
 		for (int i = 1; i <= 10; i++) {
 			for (int j = 1; j <= 10; j++) {
 				if (i == x && j == y)
 					continue;
 
-				ArrayList<Integer> position = new ArrayList(Arrays.asList(i, j));
+				ArrayList<Integer> position = new ArrayList<Integer>(Arrays.asList(i, j));
 				// Checking if the target position is open and if it is within moves.
 				if (board.getPositionValue(position) == 0 && isWithinMoves(x, y, i, j, board)) {
 					targets.add(position);
