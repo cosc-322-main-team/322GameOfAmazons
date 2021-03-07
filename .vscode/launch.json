@@ -6,17 +6,17 @@
   "configurations": [
     {
       "type": "java",
-      "name": "Launch Current File",
+      "name": "Launch Main",
       "request": "launch",
-      "mainClass": "${file}"
+      "mainClass": "ubc.cosc322.Main",
+      "projectName": "team-00",
+      "args": "team1 pass"
     },
     {
       "type": "java",
-      "name": "Launch COSC322Test",
+      "name": "Launch Current File",
       "request": "launch",
-      "mainClass": "ubc.cosc322.COSC322Test",
-      "projectName": "team-00",
-      "args": "team1 pass"
+      "mainClass": "${file}"
     }
   ]
 }
