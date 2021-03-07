@@ -11,11 +11,11 @@ public abstract class LocalPlayer extends GamePlayer {
   private String username;
   private String password;
 
+  protected AmazonsLocalBoard board = new AmazonsLocalBoard();
+  protected AmazonsActionFactory actionFactory = new AmazonsActionFactory();
+
   private GameClient gameClient = null;
   private BaseGameGUI gameGUI = null;
-
-  private AmazonsLocalBoard board = new AmazonsLocalBoard();
-  private AmazonsActionFactory actionFactory = new AmazonsActionFactory();
 
   public LocalPlayer(String username, String password) {
     this.username = username;
