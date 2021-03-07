@@ -14,7 +14,8 @@ Setup:
 },
 ```
 
-If not, add it. 4. Go to the bottom of the settings file (same file), and add the following two options:
+If not, add it.  
+4. Go to the bottom of the settings file (same file), and add the following two options:
 
 ```json
 "java.format.settings.url": "https://raw.githubusercontent.com/cosc-322-main-team/322GameOfAmazons/main/style.xml",
