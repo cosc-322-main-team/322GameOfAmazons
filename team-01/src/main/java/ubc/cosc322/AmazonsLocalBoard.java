@@ -63,4 +63,12 @@ public class AmazonsLocalBoard {
         int col = position.get(1);
         return TOTAL_LENGTH - row * ROW_LENGTH + col;
     }
+
+    public AmazonsLocalBoard deepCopy(){
+        AmazonsLocalBoard temp = new AmazonsLocalBoard();
+        temp.setState(this.state);
+        temp.localPlayer = this.localPlayer;
+        //System.out.println(temp.state);
+        return temp;
+    }
 }
