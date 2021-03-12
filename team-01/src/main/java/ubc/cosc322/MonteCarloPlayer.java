@@ -36,7 +36,7 @@ public class MonteCarloPlayer extends LocalPlayer {
   private final float MAX_RUNTIME = 10;
 
   //The constant used for UCB function. Same one chosen in the John Levine video.
-  private final int CONSTANT = 2;
+  private final double EXPLORATIONS = Math.sqrt(2);
 
   private TreeNode root;
 
@@ -89,22 +89,6 @@ public class MonteCarloPlayer extends LocalPlayer {
     return null;
   }
 
-  // TODO
-  private float getUCB() {
-    // v = total score / number of visits == avg value of the state.
-    // numVisitParent = number of times we visited the parent.
-    // numVisitCurrentNode = number of times we visited the current node.
-    // C = constant defined at the top of the class.
-    // apply the UCB1 function for that state
-
-    int numVisitParent = root.parent.getVisits();
-    int numVisitCurrentNode = root.getVisits();
-    // How do you get the avg value of the state?
-    float v;
-    float ucb = v + (CONSTANT * (Math.sqrt(Math.log(numVisitParent) / numVisitCurrentNode));
-    return ucb;
-  }
-
   private class TreeNode {
     private AmazonsLocalBoard state;
     private AmazonsAction action;
@@ -143,6 +127,26 @@ public class MonteCarloPlayer extends LocalPlayer {
 
     public AmazonsAction getAction() {
       return action;
+    }
+
+    // TODO
+    private double getUCB() {
+      // uct = v = total score / number of visits == avg value of the state.
+      // numVisitParent = number of times we visited the parent.
+      // numVisitCurrentNode = number of times we visited the current node.
+      // C = constant defined at the top of the class.
+      // apply the UCB1 function for that state
+
+      if (this.getVisits() == 0){
+        return EXPLORATIONS;
+      }
+
+      float uct =  this.wins / this.getVisits();
+
+      if (this.parent != null) {
+        uct += EXPLORATIONS * Math.sqrt(Math.log(this.parent.getVisits()) / this.getVisits());
+      }
+      return uct;
     }
   }
 }
