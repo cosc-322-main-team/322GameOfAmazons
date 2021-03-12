@@ -35,6 +35,9 @@ import java.util.ArrayList;
 public class MonteCarloPlayer extends LocalPlayer {
   private final float MAX_RUNTIME = 10;
 
+  //The constant used for UCB function. Same one chosen in the John Levine video.
+  private final int CONSTANT = 2;
+
   private TreeNode root;
 
   public MonteCarloPlayer() {
@@ -88,7 +91,18 @@ public class MonteCarloPlayer extends LocalPlayer {
 
   // TODO
   private float getUCB() {
-    return 0;
+    // v = total score / number of visits == avg value of the state.
+    // numVisitParent = number of times we visited the parent.
+    // numVisitCurrentNode = number of times we visited the current node.
+    // C = constant defined at the top of the class.
+    // apply the UCB1 function for that state
+
+    int numVisitParent = root.parent.getVisits();
+    int numVisitCurrentNode = root.getVisits();
+    // How do you get the avg value of the state?
+    float v;
+    float ucb = v + (CONSTANT * (Math.sqrt(Math.log(numVisitParent) / numVisitCurrentNode));
+    return ucb;
   }
 
   private class TreeNode {
