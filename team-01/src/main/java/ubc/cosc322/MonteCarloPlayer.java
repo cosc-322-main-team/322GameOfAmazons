@@ -131,21 +131,19 @@ public class MonteCarloPlayer extends LocalPlayer {
 
     // TODO
     private double getUCB() {
-      // uct = v = total score / number of visits == avg value of the state.
-      // numVisitParent = number of times we visited the parent.
-      // numVisitCurrentNode = number of times we visited the current node.
-      // C = constant defined at the top of the class.
-      // apply the UCB1 function for that state
-
+      // EXPLORATIONS = constant defined at the top of the class.
       if (this.getVisits() == 0){
         return EXPLORATIONS;
       }
 
+      // uct = v = total score / number of visits == avg value of the state.
       float uct =  this.wins / this.getVisits();
 
+      // apply the UCB1 function for that state
       if (this.parent != null) {
         uct += EXPLORATIONS * Math.sqrt(Math.log(this.parent.getVisits()) / this.getVisits());
       }
+      // Return ucb1 score.
       return uct;
     }
   }
