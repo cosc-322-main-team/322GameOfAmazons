@@ -36,7 +36,7 @@ public class MonteCarloPlayer extends LocalPlayer {
   private final float MAX_RUNTIME = 10;
 
   //The constant used for UCB function. Same one chosen in the John Levine video.
-  private final double EXPLORATIONS = Math.sqrt(2);
+  private final double EXPLORATION_FACTOR = Math.sqrt(2);
 
   private TreeNode root;
 
@@ -131,17 +131,18 @@ public class MonteCarloPlayer extends LocalPlayer {
 
     // TODO
     private double getUCB() {
-      // EXPLORATIONS = constant defined at the top of the class.
+      // EXPLORATION_FACTOR = constant defined at the top of the class.
+      // If we hit 0, then the unvisited node should return infinity.
       if (this.getVisits() == 0){
-        return EXPLORATIONS;
+        return Double.MAX_VALUE;
       }
 
       // uct = v = total score / number of visits == avg value of the state.
-      float uct =  this.wins / this.getVisits();
+      float uct =  this.wins / this.visits;
 
       // apply the UCB1 function for that state
       if (this.parent != null) {
-        uct += EXPLORATIONS * Math.sqrt(Math.log(this.parent.getVisits()) / this.getVisits());
+        uct += EXPLORATION_FACTOR * Math.sqrt(Math.log(this.parent.getVisits()) / this.getVisits());
       }
       // Return ucb1 score.
       return uct;
