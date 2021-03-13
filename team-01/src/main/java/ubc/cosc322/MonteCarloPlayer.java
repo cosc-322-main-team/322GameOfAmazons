@@ -49,7 +49,7 @@ public class MonteCarloPlayer extends LocalPlayer {
 		long currentTime = startTime;
 
 		//Added loop counter for debugging / optimizing so we can see how effective this will be
-		int i = 0;
+		int iterations = 0;
 		while (currentTime < startTime + MAX_RUNTIME) {
 			TreeNode current = getMaxLeaf(root);
 			if (current.getVisits() == 0) {
@@ -60,7 +60,7 @@ public class MonteCarloPlayer extends LocalPlayer {
 				boolean won = playthrough(child);
 				backpropagate(child, won);
 			}
-			i++;
+			iterations++;
 			currentTime = System.currentTimeMillis() / 1000;
 		}
 
