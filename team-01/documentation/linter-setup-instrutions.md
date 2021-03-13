@@ -43,7 +43,6 @@ That's it! Now pull the latest on main, try to lint, and nothing should change.
 You're done. Pull the latest from main, format the code, and nothing should change. 
 
 ## Mac Setup: 
-Setup:
 
 0. Pull the latest from main to have the styles.xml file locally.
 1. Open intellij
