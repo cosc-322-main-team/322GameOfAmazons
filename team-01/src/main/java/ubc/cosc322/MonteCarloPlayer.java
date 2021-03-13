@@ -85,7 +85,6 @@ public class MonteCarloPlayer extends LocalPlayer {
 			// TODO Update if conditions with JP's method
 			//We win
 			if (placeholder) {
-
 				terminalState = true;
 				break;
 			}
@@ -120,7 +119,6 @@ public class MonteCarloPlayer extends LocalPlayer {
 		}
 		return terminalState;
 	}
-
 
 	// TODO
 	private TreeNode getMaxLeaf(TreeNode root) {
