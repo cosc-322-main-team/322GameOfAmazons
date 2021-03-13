@@ -76,10 +76,51 @@ public class MonteCarloPlayer extends LocalPlayer {
 		return;
 	}
 
-	// TODO
 	private boolean playthrough(TreeNode current) {
-		return true;
+		boolean terminalState = false;
+		boolean placeholder = false;
+		int playerTurn = current.state.localPlayer;
+		//while nobody has won, run the simulation
+		while(!terminalState){
+			// TODO Update if conditions with JP's method
+			//We win
+			if(placeholder){
+
+				terminalState = true;
+				break;
+			}
+			//We lose
+			else if(!placeholder){
+				break;
+			}
+			// Pick a random move
+			ArrayList<AmazonsAction> moves = getAvailableActions();
+			int moveIndex = (int)(Math.random()*(moves.size()-1));
+			AmazonsAction move = moves.get(moveIndex);
+			// Make the move
+			// this section between the dashes should maybe be a separate method, because
+			// I think we will need to use it in expand as well?
+			//---
+			TreeNode temp = null;
+			if(root.children.size()==0){
+				root.expand();
+			}
+			for (TreeNode node:root.children) {
+				// We find the node corresponding to the move we want to make and rebase the tree
+				if(node.getAction().equals(move)){
+					temp = root;
+					root = node;
+					root.parent = null;
+				}
+			}
+			//---
+			// Change turns & repeat
+			// TODO: fit this to JP's function, we will need to know if player 1 or 2 wins.
+			playerTurn = playerTurn==2? 1:2;
+		}
+		return terminalState;
 	}
+
 
 	// TODO
 	private TreeNode getMaxLeaf(TreeNode root) {
