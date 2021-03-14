@@ -87,22 +87,14 @@ public class MonteCarloPlayer extends LocalPlayer {
 	private int playthrough(TreeNode current) {
 		AmazonsActionFactory af = new AmazonsActionFactory();
 		AmazonsLocalBoard b = current.state.copy();
-		AmazonsLocalBoard opponentBoard = new AmazonsLocalBoard();
-		opponentBoard.setState(b.getState());
-		opponentBoard.localPlayer = b.getOpponent();
 
 		int winner = Integer.MIN_VALUE;
 		//while nobody has won, run the simulation
 		while (winner < 0) {
 			ArrayList<AmazonsAction> actions = af.getActions(b);
 			//Check win conditions
-			//If opponent color loses
-			if (af.getActions(opponentBoard).size() == 0) {
-				winner = b.localPlayer;
-				break;
-			}
 			//If node color loses
-			else if (actions.size() == 0) {
+			if (actions.size() == 0) {
 				winner = b.getOpponent();
 				break;
 			}
@@ -119,9 +111,9 @@ public class MonteCarloPlayer extends LocalPlayer {
 				if (node.getAction().equals(move)) {
 					root = node;
 					root.parent = null;
+					b.updateState(move.queenCurrent, move.queenTarget,move.arrowTarget);
 				}
 			}
-			opponentBoard.localPlayer = b.localPlayer;
 			b.localPlayer = b.getOpponent();
 		}
 		return winner;
