@@ -24,7 +24,6 @@ public class AmazonsLocalBoard {
 
 	public void setState(ArrayList<Integer> state) {
 		this.state = state;
-		printState();
 	}
 
 	public void updateState(AmazonsAction action) {
@@ -36,7 +35,6 @@ public class AmazonsLocalBoard {
 		setPositionValue(queenCurrent, 0);
 		setPositionValue(queenTarget, playerColor);
 		setPositionValue(arrowTarget, 3);
-		printState();
 	}
 
 	public int getPositionValue(int x, int y) {
