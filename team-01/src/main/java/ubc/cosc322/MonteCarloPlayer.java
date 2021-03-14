@@ -35,6 +35,9 @@ import java.util.ArrayList;
 public class MonteCarloPlayer extends LocalPlayer {
 	private final float MAX_RUNTIME = 10;
 
+	//The constant used for UCB function. Same one chosen in the John Levine video.
+	private final double EXPLORATION_FACTOR = Math.sqrt(2);
+
 	private TreeNode root;
 
 	public MonteCarloPlayer() {
@@ -48,8 +51,6 @@ public class MonteCarloPlayer extends LocalPlayer {
 		long startTime = System.currentTimeMillis() / 1000;
 		long currentTime = startTime;
 
-		//Added loop counter for debugging / optimizing so we can see how effective this will be
-		int iterations = 0;
 		while (currentTime < startTime + MAX_RUNTIME) {
 			TreeNode current = getMaxLeaf(root);
 			if (current.getVisits() == 0) {
@@ -60,7 +61,6 @@ public class MonteCarloPlayer extends LocalPlayer {
 				boolean won = playthrough(child);
 				backpropagate(child, won);
 			}
-			iterations++;
 			currentTime = System.currentTimeMillis() / 1000;
 		}
 
@@ -74,6 +74,7 @@ public class MonteCarloPlayer extends LocalPlayer {
 		return null;
 	}
 
+	// TODO
 	private void backpropagate(TreeNode current, boolean won) {
 		while (current != null) {
 			if (won) {
@@ -167,8 +168,23 @@ public class MonteCarloPlayer extends LocalPlayer {
 			return action;
 		}
 
+		// TODO
 		private double getUCB() {
-			return 0;
+			// EXPLORATION_FACTOR = constant defined at the top of the class.
+			// If we hit 0, then the unvisited node should return infinity.
+			if (this.getVisits() == 0) {
+				return Double.MAX_VALUE;
+			}
+
+			// uct = v = total score / number of visits == avg value of the state.
+			float uct = wins / visits;
+
+			// apply the UCB1 function for that state
+			if (parent != null) {
+				uct += EXPLORATION_FACTOR * Math.sqrt(Math.log(parent.visits) / visits);
+			}
+			// Return ucb1 score.
+			return uct;
 		}
 	}
 }
