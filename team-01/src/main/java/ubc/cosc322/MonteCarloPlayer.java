@@ -48,7 +48,7 @@ public class MonteCarloPlayer extends LocalPlayer {
 		long startTime = System.currentTimeMillis() / 1000;
 		long currentTime = startTime;
 
-		//Added loop counter for debugging / optimizing so we can see how effective this will be
+		// Added loop counter for debugging / optimizing so we can see how effective this will be
 		int iterations = 0;
 		while (currentTime < startTime + MAX_RUNTIME) {
 			TreeNode current = getMaxLeaf(root);
@@ -69,9 +69,19 @@ public class MonteCarloPlayer extends LocalPlayer {
 		sendMove(move.queenCurrent, move.queenTarget, move.arrowTarget);
 	}
 
-	// TODO
 	private TreeNode getBestNode(TreeNode root) {
-		return null;
+		int maxWins = -1;
+		TreeNode best = null;
+
+		for (TreeNode node : root.children) {
+			int wins = node.getWins();
+			if (wins > maxWins) {
+				maxWins = wins;
+				best = node;
+			}
+		}
+
+		return best;
 	}
 
 	private void backpropagate(TreeNode current, boolean won) {
@@ -132,6 +142,10 @@ public class MonteCarloPlayer extends LocalPlayer {
 
 			// Return the first child expanded
 			return null;
+		}
+
+		public int getWins() {
+			return wins;
 		}
 
 		public int getVisits() {
