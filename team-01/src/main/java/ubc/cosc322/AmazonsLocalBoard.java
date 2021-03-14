@@ -2,6 +2,7 @@ package ubc.cosc322;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.stream.Collectors;
 
 public class AmazonsLocalBoard {
 	/*
@@ -58,5 +59,12 @@ public class AmazonsLocalBoard {
 		int row = position.get(0);
 		int col = position.get(1);
 		return TOTAL_LENGTH - row * ROW_LENGTH + col;
+	}
+
+	public AmazonsLocalBoard copy() {
+		AmazonsLocalBoard copy = new AmazonsLocalBoard();
+		copy.localPlayer = localPlayer;
+		copy.state = state.stream().collect(Collectors.toCollection(ArrayList::new));
+		return copy;
 	}
 }
