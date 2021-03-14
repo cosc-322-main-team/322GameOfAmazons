@@ -85,16 +85,15 @@ public class MonteCarloPlayer extends LocalPlayer {
 	}
 
 	private int playthrough(TreeNode current) {
-		AmazonsActionFactory af = new AmazonsActionFactory();
-		AmazonsLocalBoard b = current.state.copy();
+		AmazonsLocalBoard boardCopy = current.state.copy();
 		TreeNode simRoot = new TreeNode(root.state, root.getAction(), root.parent);
 		int winner = Integer.MIN_VALUE;
 
 		while (winner < 0) {
-			ArrayList<AmazonsAction> actions = af.getActions(b);
+			ArrayList<AmazonsAction> actions = actionFactory.getActions(boardCopy);
 			//Check win conditions
 			if (actions.size() == 0) {
-				winner = b.getOpponent();
+				winner = boardCopy.getOpponent();
 				break;
 			}
 			// Pick a random move
@@ -110,8 +109,8 @@ public class MonteCarloPlayer extends LocalPlayer {
 					simRoot.parent = null;
 				}
 			}
-			b.updateState(move.queenCurrent, move.queenTarget, move.arrowTarget);
-			b.localPlayer = b.getOpponent();
+			boardCopy.updateState(move.queenCurrent, move.queenTarget, move.arrowTarget);
+			boardCopy.localPlayer = boardCopy.getOpponent();
 		}
 		return winner;
 	}
