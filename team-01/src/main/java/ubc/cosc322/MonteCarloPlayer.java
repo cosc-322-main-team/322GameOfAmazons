@@ -48,7 +48,7 @@ public class MonteCarloPlayer extends LocalPlayer {
 		long startTime = System.currentTimeMillis() / 1000;
 		long currentTime = startTime;
 
-		//Added loop counter for debugging / optimizing so we can see how effective this will be
+		// Added loop counter for debugging / optimizing so we can see how effective this will be
 		int iterations = 0;
 		while (currentTime < startTime + MAX_RUNTIME) {
 			TreeNode current = getMaxLeaf(root);
@@ -85,22 +85,26 @@ public class MonteCarloPlayer extends LocalPlayer {
 	}
 
 	private int playthrough(TreeNode current) {
-		AmazonsLocalBoard boardCopy = current.state.copy();
+		AmazonsLocalBoard state = current.state.copy();
 		int winner = -1;
 
 		while (winner < 0) {
-			ArrayList<AmazonsAction> actions = actionFactory.getActions(boardCopy);
-			//Check win conditions
+			ArrayList<AmazonsAction> actions = actionFactory.getActions(state);
+
+			// Check win conditions
 			if (actions.size() == 0) {
-				winner = boardCopy.getOpponent();
-				break;
+				return state.getOpponent();
 			}
+
 			// Pick a random move
-			int moveIndex = (int) (Math.random() * (actions.size()));
+			int moveIndex = (int) (Math.random() * actions.size());
 			AmazonsAction move = actions.get(moveIndex);
-			boardCopy.updateState(move.queenCurrent, move.queenTarget, move.arrowTarget);
-			boardCopy.localPlayer = boardCopy.getOpponent();
+
+			// Apply the selected move to the state
+			state.updateState(move.queenCurrent, move.queenTarget, move.arrowTarget);
+			state.localPlayer = state.getOpponent();
 		}
+
 		return winner;
 	}
 
