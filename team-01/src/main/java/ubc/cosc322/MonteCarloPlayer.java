@@ -1,7 +1,6 @@
 package ubc.cosc322;
 
 import java.util.ArrayList;
-import ygraph.ai.smartfox.games.Amazon;
 
 /*
  * MONTE-CARLO TREE SEARCH
@@ -34,7 +33,7 @@ import ygraph.ai.smartfox.games.Amazon;
  * 2. Fullstack Academy, https://www.youtube.com/watch?v=Fbs4lnGLS8M
  */
 public class MonteCarloPlayer extends LocalPlayer {
-	private final float MAX_RUNTIME = 10;
+	private final long MAX_RUNTIME = 10000;
 
 	// The constant used for UCB function. Same one chosen in the John Levine video.
 	private final double EXPLORATION_FACTOR = Math.sqrt(2);
@@ -49,10 +48,10 @@ public class MonteCarloPlayer extends LocalPlayer {
 	protected void onMoveReceived() {
 		root = new TreeNode(board);
 
-		long startTime = System.currentTimeMillis() / 1000;
-		long currentTime = startTime;
+		long startTime = System.currentTimeMillis();
+		long endTime = startTime + MAX_RUNTIME;
 
-		while (currentTime < startTime + MAX_RUNTIME) {
+		while (System.currentTimeMillis() < endTime) {
 			TreeNode current = getMaxLeaf(root);
 			if (current.getVisits() == 0) {
 				int winner = playthrough(current);
@@ -62,7 +61,6 @@ public class MonteCarloPlayer extends LocalPlayer {
 				int winner = playthrough(child);
 				backpropagate(child, winner);
 			}
-			currentTime = System.currentTimeMillis() / 1000;
 		}
 
 		root = getBestMove(root);
@@ -122,6 +120,9 @@ public class MonteCarloPlayer extends LocalPlayer {
 	private TreeNode getMaxLeaf(TreeNode root) {
 		ArrayList<TreeNode> leaves = getLeaves(root);
 
+		if (leaves.isEmpty())
+			return root;
+
 		int leafIndex = 0;
 		double maxUCB = leaves.get(0).getUCB();
 		for (int i = 1; i < leaves.size(); i++) {
@@ -164,7 +165,7 @@ public class MonteCarloPlayer extends LocalPlayer {
 		}
 
 		public TreeNode(AmazonsLocalBoard state, AmazonsAction action, TreeNode parent) {
-			this.state = state; // TODO: deepcopy
+			this.state = state.copy();
 			this.action = action;
 			this.parent = parent;
 			children = new ArrayList<TreeNode>();
@@ -205,7 +206,6 @@ public class MonteCarloPlayer extends LocalPlayer {
 			return action;
 		}
 
-		// TODO
 		private double getUCB() {
 			// EXPLORATION_FACTOR = constant defined at the top of the class.
 			// If we hit 0, then the unvisited node should return infinity.
