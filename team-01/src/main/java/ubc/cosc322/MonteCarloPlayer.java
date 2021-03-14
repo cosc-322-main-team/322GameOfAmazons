@@ -138,11 +138,11 @@ public class MonteCarloPlayer extends LocalPlayer {
       }
 
       // uct = v = total score / number of visits == avg value of the state.
-      float uct =  this.wins / this.visits;
+      float uct =  wins / visits;
 
       // apply the UCB1 function for that state
-      if (this.parent != null) {
-        uct += EXPLORATION_FACTOR * Math.sqrt(Math.log(this.parent.getVisits()) / this.getVisits());
+      if (parent != null) {
+        uct += EXPLORATION_FACTOR * Math.sqrt(Math.log(parent.visits) / visits);
       }
       // Return ucb1 score.
       return uct;
