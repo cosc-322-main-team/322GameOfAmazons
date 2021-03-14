@@ -26,6 +26,10 @@ public class AmazonsLocalBoard {
 		printState();
 	}
 
+	public void updateState(AmazonsAction action) {
+		updateState(action.queenCurrent, action.queenTarget, action.arrowTarget);
+	}
+
 	public void updateState(ArrayList<Integer> queenCurrent, ArrayList<Integer> queenTarget, ArrayList<Integer> arrowTarget) {
 		int playerColor = getPositionValue(queenCurrent);
 		setPositionValue(queenCurrent, 0);
@@ -34,12 +38,12 @@ public class AmazonsLocalBoard {
 		printState();
 	}
 
-	public int getPositionValue(ArrayList<Integer> position) {
-		return state.get(getIndex(position));
-	}
-
 	public int getPositionValue(int x, int y) {
 		return getPositionValue(new ArrayList<>(Arrays.asList(x, y)));
+	}
+
+	public int getPositionValue(ArrayList<Integer> position) {
+		return state.get(getIndex(position));
 	}
 
 	public void setPositionValue(ArrayList<Integer> position, int value) {
