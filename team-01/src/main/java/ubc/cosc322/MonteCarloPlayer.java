@@ -35,7 +35,7 @@ import java.util.ArrayList;
 public class MonteCarloPlayer extends LocalPlayer {
 	private final float MAX_RUNTIME = 10;
 
-	//The constant used for UCB function. Same one chosen in the John Levine video.
+	// The constant used for UCB function. Same one chosen in the John Levine video.
 	private final double EXPLORATION_FACTOR = Math.sqrt(2);
 
 	private TreeNode root;
@@ -51,6 +51,8 @@ public class MonteCarloPlayer extends LocalPlayer {
 		long startTime = System.currentTimeMillis() / 1000;
 		long currentTime = startTime;
 
+		// Added loop counter for debugging / optimizing so we can see how effective this will be
+		int iterations = 0;
 		while (currentTime < startTime + MAX_RUNTIME) {
 			TreeNode current = getMaxLeaf(root);
 			if (current.getVisits() == 0) {
@@ -64,14 +66,24 @@ public class MonteCarloPlayer extends LocalPlayer {
 			currentTime = System.currentTimeMillis() / 1000;
 		}
 
-		root = getBestNode(root);
-		AmazonsAction move = root.getAction();
-		sendMove(move.queenCurrent, move.queenTarget, move.arrowTarget);
+		root = getBestMove(root);
+		AmazonsAction action = root.getAction();
+		sendMove(action.queenCurrent, action.queenTarget, action.arrowTarget);
 	}
 
-	// TODO
-	private TreeNode getBestNode(TreeNode root) {
-		return null;
+	private TreeNode getBestMove(TreeNode root) {
+		int maxWins = -1;
+		TreeNode best = null;
+
+		for (TreeNode node : root.children) {
+			int wins = node.getWins();
+			if (wins > maxWins) {
+				maxWins = wins;
+				best = node;
+			}
+		}
+
+		return best;
 	}
 
 	// TODO
@@ -90,39 +102,35 @@ public class MonteCarloPlayer extends LocalPlayer {
 		return true;
 	}
 
-	// TODO
-
 	private TreeNode getMaxLeaf(TreeNode root) {
-		// Creating an array list of our leafNodes.
 		ArrayList<TreeNode> leaves = getLeaves(root);
 
-		// Variables used to maxUCB against in the for loop.
-		double maxUCB = leaves.get(0).getUCB();
 		int leafIndex = 0;
-
-		// Iterate through the array list of leaves finding the largest leaf.
+		double maxUCB = leaves.get(0).getUCB();
 		for (int i = 1; i < leaves.size(); i++) {
-			if (leaves.get(i).getUCB() > maxUCB)
+			double ucb = leaves.get(i).getUCB();
+			if (ucb > maxUCB) {
 				leafIndex = i;
-				maxUCB = leaves.get(i).getUCB();
+				maxUCB = ucb;
+			}
 		}
 
-		// Returning the largest leaf.
 		return leaves.get(leafIndex);
 	}
 
 	private ArrayList<TreeNode> getLeaves(TreeNode root) {
-		// This is a helper method for get max leaf.
-		ArrayList<TreeNode> leaves = new ArrayList();
+		ArrayList<TreeNode> leaves = new ArrayList<>();
 
 		for (int i = 0; i < root.children.size(); i++) {
-			// This if else statement checks if the child has children or is a leaf and then either adds it to the array list.
-			if (root.children.get(i).children.isEmpty())
-				leaves.add(root.children.get(i));
-			// Or recursively calls itself to find more leaves.
+			TreeNode current = root.children.get(i);
+			// Check if the child has children or is a leaf
+			if (current.children.isEmpty())
+				leaves.add(current);
 			else
-				leaves.addAll(getLeaves(root.children.get(i)));
+				// Recursively add current's leaves to the list of leaves
+				leaves.addAll(getLeaves(current));
 		}
+
 		return leaves;
 	}
 
@@ -159,6 +167,10 @@ public class MonteCarloPlayer extends LocalPlayer {
 
 			// Return the first child expanded
 			return null;
+		}
+
+		public int getWins() {
+			return wins;
 		}
 
 		public int getVisits() {
