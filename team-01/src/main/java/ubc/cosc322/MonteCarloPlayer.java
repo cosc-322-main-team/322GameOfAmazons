@@ -87,7 +87,7 @@ public class MonteCarloPlayer extends LocalPlayer {
 	private int playthrough(TreeNode current) {
 		AmazonsActionFactory af = new AmazonsActionFactory();
 		AmazonsLocalBoard b = current.state.copy();
-
+		TreeNode simRoot = new TreeNode(root.state,root.getAction(),root.parent);
 		int winner = Integer.MIN_VALUE;
 		//while nobody has won, run the simulation
 		while (winner < 0) {
@@ -102,15 +102,14 @@ public class MonteCarloPlayer extends LocalPlayer {
 			int moveIndex = (int) (Math.random() * (actions.size() - 1));
 			AmazonsAction move = actions.get(moveIndex);
 			//Make the move
-			TreeNode temp = null;
-			if (root.children.size() == 0) {
-				root.expand();
+			if (simRoot.children.size() == 0) {
+				simRoot.expand();
 			}
-			for (TreeNode node : root.children) {
+			for (TreeNode node : simRoot.children) {
 				// We find the node corresponding to the move we want to make and rebase the tree
 				if (node.getAction().equals(move)) {
-					root = node;
-					root.parent = null;
+					simRoot = node;
+					simRoot.parent = null;
 				}
 			}
 			b.updateState(move.queenCurrent, move.queenTarget,move.arrowTarget);
