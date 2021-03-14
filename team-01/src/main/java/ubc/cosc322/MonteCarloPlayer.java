@@ -46,11 +46,14 @@ public class MonteCarloPlayer extends LocalPlayer {
 
 	@Override
 	protected void onMoveReceived() {
-		root = new TreeNode(board);
+		AmazonsLocalBoard rootState = board.copy();
+		rootState.localPlayer = board.getOpponent();
+		root = new TreeNode(rootState);
 
 		long startTime = System.currentTimeMillis();
 		long endTime = startTime + MAX_RUNTIME;
 
+		int count = 0;
 		while (System.currentTimeMillis() < endTime) {
 			TreeNode current = getMaxLeaf(root);
 			if (current.getVisits() == 0) {
@@ -61,7 +64,9 @@ public class MonteCarloPlayer extends LocalPlayer {
 				int winner = playthrough(child);
 				backpropagate(child, winner);
 			}
+			count++;
 		}
+		System.out.println(count);
 
 		root = getBestMove(root);
 		AmazonsAction action = root.getAction();
