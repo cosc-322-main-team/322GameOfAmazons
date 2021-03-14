@@ -111,9 +111,9 @@ public class MonteCarloPlayer extends LocalPlayer {
 				if (node.getAction().equals(move)) {
 					root = node;
 					root.parent = null;
-					b.updateState(move.queenCurrent, move.queenTarget,move.arrowTarget);
 				}
 			}
+			b.updateState(move.queenCurrent, move.queenTarget,move.arrowTarget);
 			b.localPlayer = b.getOpponent();
 		}
 		return winner;
