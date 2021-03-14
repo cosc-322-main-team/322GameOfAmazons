@@ -52,17 +52,15 @@ public class MonteCarloPlayer extends LocalPlayer {
 		long startTime = System.currentTimeMillis() / 1000;
 		long currentTime = startTime;
 
-		// Added loop counter for debugging / optimizing so we can see how effective this will be
-		int iterations = 0;
 		while (currentTime < startTime + MAX_RUNTIME) {
 			TreeNode current = getMaxLeaf(root);
 			if (current.getVisits() == 0) {
-				boolean won = playthrough(current);
-				backpropagate(current, won);
+				int winner = playthrough(current);
+				backpropagate(current, winner);
 			} else {
 				TreeNode child = current.expand();
-				boolean won = playthrough(child);
-				backpropagate(child, won);
+				int winner = playthrough(child);
+				backpropagate(child, winner);
 			}
 			currentTime = System.currentTimeMillis() / 1000;
 		}
@@ -87,10 +85,9 @@ public class MonteCarloPlayer extends LocalPlayer {
 		return best;
 	}
 
-	// TODO
-	private void backpropagate(TreeNode current, boolean won) {
+	private void backpropagate(TreeNode current, int winner) {
 		while (current != null) {
-			if (won) {
+			if (current.state.localPlayer == winner) {
 				current.wins++;
 			}
 			current.visits++;
@@ -98,9 +95,28 @@ public class MonteCarloPlayer extends LocalPlayer {
 		}
 	}
 
-	// TODO
-	private boolean playthrough(TreeNode current) {
-		return true;
+	private int playthrough(TreeNode current) {
+		AmazonsLocalBoard state = current.state.copy();
+		int winner = -1;
+
+		while (winner < 0) {
+			ArrayList<AmazonsAction> actions = actionFactory.getActions(state);
+
+			// Check win conditions
+			if (actions.size() == 0) {
+				return state.getOpponent();
+			}
+
+			// Pick a random move
+			int moveIndex = (int) (Math.random() * actions.size());
+			AmazonsAction move = actions.get(moveIndex);
+
+			// Apply the selected move to the state
+			state.updateState(move.queenCurrent, move.queenTarget, move.arrowTarget);
+			state.localPlayer = state.getOpponent();
+		}
+
+		return winner;
 	}
 
 	private TreeNode getMaxLeaf(TreeNode root) {
