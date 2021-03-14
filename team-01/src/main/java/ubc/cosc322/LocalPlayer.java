@@ -36,6 +36,7 @@ public abstract class LocalPlayer extends GamePlayer {
   /** Sends a move to the server and updates the local state accordingly. */
   protected void sendMove(ArrayList<Integer> queenCurrent, ArrayList<Integer> queenTarget, ArrayList<Integer> arrowTarget) {
     board.updateState(queenCurrent, queenTarget, arrowTarget);
+    board.printState();
     gameGUI.updateGameState(queenCurrent, queenTarget, arrowTarget);
     gameClient.sendMoveMessage(queenCurrent, queenTarget, arrowTarget);
   }
@@ -49,6 +50,7 @@ public abstract class LocalPlayer extends GamePlayer {
         ArrayList<Integer> gameState = getMessageByTag(msgDetails, "game-state");
 
         board.setState(gameState);
+        board.printState();
         gameGUI.setGameState(gameState);
 
         break;
@@ -59,6 +61,7 @@ public abstract class LocalPlayer extends GamePlayer {
         ArrayList<Integer> arrowTarget = getMessageByTag(msgDetails, "arrow-position");
 
         board.updateState(queenCurrent, queenTarget, arrowTarget);
+        board.printState();
         gameGUI.updateGameState(queenCurrent, queenTarget, arrowTarget);
 
         onMoveReceived();

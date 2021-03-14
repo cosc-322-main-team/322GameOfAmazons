@@ -1,6 +1,7 @@
 package ubc.cosc322;
 
 import java.util.ArrayList;
+import ygraph.ai.smartfox.games.Amazon;
 
 /*
  * MONTE-CARLO TREE SEARCH
@@ -35,6 +36,9 @@ import java.util.ArrayList;
 public class MonteCarloPlayer extends LocalPlayer {
 	private final float MAX_RUNTIME = 10;
 
+	// The constant used for UCB function. Same one chosen in the John Levine video.
+	private final double EXPLORATION_FACTOR = Math.sqrt(2);
+
 	private TreeNode root;
 
 	public MonteCarloPlayer() {
@@ -60,18 +64,27 @@ public class MonteCarloPlayer extends LocalPlayer {
 				int winner = playthrough(child);
 				backpropagate(child, winner);
 			}
-			iterations++;
 			currentTime = System.currentTimeMillis() / 1000;
 		}
 
-		root = getBestNode(root);
-		AmazonsAction move = root.getAction();
-		sendMove(move.queenCurrent, move.queenTarget, move.arrowTarget);
+		root = getBestMove(root);
+		AmazonsAction action = root.getAction();
+		sendMove(action.queenCurrent, action.queenTarget, action.arrowTarget);
 	}
 
-	// TODO
-	private TreeNode getBestNode(TreeNode root) {
-		return null;
+	private TreeNode getBestMove(TreeNode root) {
+		int maxWins = -1;
+		TreeNode best = null;
+
+		for (TreeNode node : root.children) {
+			int wins = node.getWins();
+			if (wins > maxWins) {
+				maxWins = wins;
+				best = node;
+			}
+		}
+
+		return best;
 	}
 
 	private void backpropagate(TreeNode current, int winner) {
@@ -108,14 +121,36 @@ public class MonteCarloPlayer extends LocalPlayer {
 		return winner;
 	}
 
-	// TODO
 	private TreeNode getMaxLeaf(TreeNode root) {
-		return null;
+		ArrayList<TreeNode> leaves = getLeaves(root);
+
+		int leafIndex = 0;
+		double maxUCB = leaves.get(0).getUCB();
+		for (int i = 1; i < leaves.size(); i++) {
+			double ucb = leaves.get(i).getUCB();
+			if (ucb > maxUCB) {
+				leafIndex = i;
+				maxUCB = ucb;
+			}
+		}
+
+		return leaves.get(leafIndex);
 	}
 
-	// TODO
-	private float getUCB() {
-		return 0;
+	private ArrayList<TreeNode> getLeaves(TreeNode root) {
+		ArrayList<TreeNode> leaves = new ArrayList<>();
+
+		for (int i = 0; i < root.children.size(); i++) {
+			TreeNode current = root.children.get(i);
+			// Check if the child has children or is a leaf
+			if (current.children.isEmpty())
+				leaves.add(current);
+			else
+				// Recursively add current's leaves to the list of leaves
+				leaves.addAll(getLeaves(current));
+		}
+
+		return leaves;
 	}
 
 	private class TreeNode {
@@ -137,20 +172,31 @@ public class MonteCarloPlayer extends LocalPlayer {
 			children = new ArrayList<TreeNode>();
 		}
 
-		// TODO
-
 		/**
 		 * Returns the first child expanded.
 		 */
 		public TreeNode expand() {
 			// Get list of possible actions
+			ArrayList<AmazonsAction> actions = actionFactory.getActions(state);
 
 			// Make new state node for each action
+			for (int i = 0; i < actions.size(); i++) {
+				AmazonsAction childAction = actions.get(i);
 
-			// Add each node as a child of this node
+				AmazonsLocalBoard childState = state.copy();
+				childState.localPlayer = state.localPlayer == 1 ? 2 : 1;
+				childState.updateState(childAction);
+
+				// Add each node as a child of this node
+				children.add(new TreeNode(childState, childAction, this));
+			}
 
 			// Return the first child expanded
-			return null;
+			return children.get(0);
+		}
+
+		public int getWins() {
+			return wins;
 		}
 
 		public int getVisits() {
@@ -159,6 +205,25 @@ public class MonteCarloPlayer extends LocalPlayer {
 
 		public AmazonsAction getAction() {
 			return action;
+		}
+
+		// TODO
+		private double getUCB() {
+			// EXPLORATION_FACTOR = constant defined at the top of the class.
+			// If we hit 0, then the unvisited node should return infinity.
+			if (this.getVisits() == 0) {
+				return Double.MAX_VALUE;
+			}
+
+			// uct = v = total score / number of visits == avg value of the state.
+			float uct = wins / visits;
+
+			// apply the UCB1 function for that state
+			if (parent != null) {
+				uct += EXPLORATION_FACTOR * Math.sqrt(Math.log(parent.visits) / visits);
+			}
+			// Return ucb1 score.
+			return uct;
 		}
 	}
 }
