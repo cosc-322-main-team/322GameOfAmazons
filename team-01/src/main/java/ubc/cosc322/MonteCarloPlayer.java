@@ -89,11 +89,10 @@ public class MonteCarloPlayer extends LocalPlayer {
 		AmazonsLocalBoard b = current.state.copy();
 		TreeNode simRoot = new TreeNode(root.state, root.getAction(), root.parent);
 		int winner = Integer.MIN_VALUE;
-		//while nobody has won, run the simulation
+
 		while (winner < 0) {
 			ArrayList<AmazonsAction> actions = af.getActions(b);
 			//Check win conditions
-			//If node color loses
 			if (actions.size() == 0) {
 				winner = b.getOpponent();
 				break;
@@ -101,12 +100,11 @@ public class MonteCarloPlayer extends LocalPlayer {
 			// Pick a random move
 			int moveIndex = (int) (Math.random() * (actions.size()));
 			AmazonsAction move = actions.get(moveIndex);
-			//Make the move
+			//Simulate the move
 			if (simRoot.children.size() == 0) {
 				simRoot.expand();
 			}
 			for (TreeNode node : simRoot.children) {
-				// We find the node corresponding to the move we want to make and rebase the tree
 				if (node.getAction().equals(move)) {
 					simRoot = node;
 					simRoot.parent = null;
