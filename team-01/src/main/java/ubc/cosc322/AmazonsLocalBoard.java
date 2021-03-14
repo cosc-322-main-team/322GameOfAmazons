@@ -63,6 +63,9 @@ public class AmazonsLocalBoard {
 		return TOTAL_LENGTH - row * ROW_LENGTH + col;
 	}
 
+	/**
+	 * Returns a deep copy of this board.
+	 */
 	public AmazonsLocalBoard copy() {
 		AmazonsLocalBoard copy = new AmazonsLocalBoard();
 		copy.localPlayer = localPlayer;
