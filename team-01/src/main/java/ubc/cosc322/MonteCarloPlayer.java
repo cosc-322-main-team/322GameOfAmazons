@@ -93,32 +93,33 @@ public class MonteCarloPlayer extends LocalPlayer {
 	// TODO
 
 	private TreeNode getMaxLeaf(TreeNode root) {
-		//Creating an array list of our leafNodes
+		// Creating an array list of our leafNodes.
 		ArrayList<TreeNode> leaves = getLeaves(root);
 
-		//Variables used to check against in the for loop
-		double check = leaves.get(0).getUCB();
+		// Variables used to maxUCB against in the for loop.
+		double maxUCB = leaves.get(0).getUCB();
 		int leafIndex = 0;
 
-		//Iterate through the array list of leaves finding the largest leaf.
+		// Iterate through the array list of leaves finding the largest leaf.
 		for (int i = 1; i < leaves.size(); i++) {
-			if (leaves.get(i).getUCB() > check)
+			if (leaves.get(i).getUCB() > maxUCB)
 				leafIndex = i;
+				maxUCB = leaves.get(i).getUCB();
 		}
 
-		//Returning the largest leaf.
+		// Returning the largest leaf.
 		return leaves.get(leafIndex);
 	}
 
 	private ArrayList<TreeNode> getLeaves(TreeNode root) {
-		//This is a helper method for get max leaf.
+		// This is a helper method for get max leaf.
 		ArrayList<TreeNode> leaves = new ArrayList();
 
 		for (int i = 0; i < root.children.size(); i++) {
-			//This if else statement checks if the child has children or is a leaf and then either adds it to the array list
+			// This if else statement checks if the child has children or is a leaf and then either adds it to the array list.
 			if (root.children.get(i).children.isEmpty())
 				leaves.add(root.children.get(i));
-				//Or recursively calls itself to find more leaves.
+			// Or recursively calls itself to find more leaves.
 			else
 				leaves.addAll(getLeaves(root.children.get(i)));
 		}
