@@ -61,7 +61,7 @@ public class AmazonsLocalBoard {
 		return TOTAL_LENGTH - row * ROW_LENGTH + col;
 	}
 
-	public AmazonsLocalBoard getDeepCopy() {
+	public AmazonsLocalBoard copy() {
 		AmazonsLocalBoard copy = new AmazonsLocalBoard();
 		copy.localPlayer = localPlayer;
 		copy.state = state.stream().collect(Collectors.toCollection(ArrayList::new));
