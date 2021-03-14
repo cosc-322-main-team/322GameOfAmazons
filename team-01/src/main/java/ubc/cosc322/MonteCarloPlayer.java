@@ -1,6 +1,7 @@
 package ubc.cosc322;
 
 import java.util.ArrayList;
+import ygraph.ai.smartfox.games.Amazon;
 
 /*
  * MONTE-CARLO TREE SEARCH
@@ -153,20 +154,27 @@ public class MonteCarloPlayer extends LocalPlayer {
 			children = new ArrayList<TreeNode>();
 		}
 
-		// TODO
-
 		/**
 		 * Returns the first child expanded.
 		 */
 		public TreeNode expand() {
 			// Get list of possible actions
+			ArrayList<AmazonsAction> actions = actionFactory.getActions(state);
 
 			// Make new state node for each action
+			for (int i = 0; i < actions.size(); i++) {
+				AmazonsAction childAction = actions.get(i);
 
-			// Add each node as a child of this node
+				AmazonsLocalBoard childState = state.copy();
+				childState.localPlayer = state.localPlayer == 1 ? 2 : 1;
+				childState.updateState(childAction);
+
+				// Add each node as a child of this node
+				children.add(new TreeNode(childState, childAction, this));
+			}
 
 			// Return the first child expanded
-			return null;
+			return children.get(0);
 		}
 
 		public int getWins() {

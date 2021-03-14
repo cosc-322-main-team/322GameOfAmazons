@@ -24,7 +24,10 @@ public class AmazonsLocalBoard {
 
 	public void setState(ArrayList<Integer> state) {
 		this.state = state;
-		printState();
+	}
+
+	public void updateState(AmazonsAction action) {
+		updateState(action.queenCurrent, action.queenTarget, action.arrowTarget);
 	}
 
 	public void updateState(ArrayList<Integer> queenCurrent, ArrayList<Integer> queenTarget, ArrayList<Integer> arrowTarget) {
@@ -32,15 +35,14 @@ public class AmazonsLocalBoard {
 		setPositionValue(queenCurrent, 0);
 		setPositionValue(queenTarget, playerColor);
 		setPositionValue(arrowTarget, 3);
-		printState();
-	}
-
-	public int getPositionValue(ArrayList<Integer> position) {
-		return state.get(getIndex(position));
 	}
 
 	public int getPositionValue(int x, int y) {
 		return getPositionValue(new ArrayList<>(Arrays.asList(x, y)));
+	}
+
+	public int getPositionValue(ArrayList<Integer> position) {
+		return state.get(getIndex(position));
 	}
 
 	public void setPositionValue(ArrayList<Integer> position, int value) {
