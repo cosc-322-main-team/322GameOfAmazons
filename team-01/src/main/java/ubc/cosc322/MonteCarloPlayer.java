@@ -130,7 +130,7 @@ public class MonteCarloPlayer extends LocalPlayer {
 			for (int i = 0; i < actions.size(); i++) {
 				AmazonsAction childAction = actions.get(i);
 
-				AmazonsLocalBoard childState = state; // TODO: deep copy
+				AmazonsLocalBoard childState = state.copy();
 				childState.localPlayer = state.localPlayer == 1 ? 2 : 1;
 				childState.updateState(childAction);
 
