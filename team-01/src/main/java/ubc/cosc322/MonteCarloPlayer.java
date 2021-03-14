@@ -53,12 +53,12 @@ public class MonteCarloPlayer extends LocalPlayer {
 		while (currentTime < startTime + MAX_RUNTIME) {
 			TreeNode current = getMaxLeaf(root);
 			if (current.getVisits() == 0) {
-				boolean won = playthrough(current);
-				backpropagate(current, won);
+				int winner = playthrough(current);
+				backpropagate(current, winner);
 			} else {
 				TreeNode child = current.expand();
-				boolean won = playthrough(child);
-				backpropagate(child, won);
+				int winner = playthrough(child);
+				backpropagate(child, winner);
 			}
 			iterations++;
 			currentTime = System.currentTimeMillis() / 1000;
@@ -74,9 +74,9 @@ public class MonteCarloPlayer extends LocalPlayer {
 		return null;
 	}
 
-	private void backpropagate(TreeNode current, boolean won) {
+	private void backpropagate(TreeNode current, int winner) {
 		while (current != null) {
-			if (won) {
+			if (current.state.localPlayer == winner) {
 				current.wins++;
 			}
 			current.visits++;
@@ -84,30 +84,32 @@ public class MonteCarloPlayer extends LocalPlayer {
 		}
 	}
 
-	private boolean playthrough(TreeNode current) {
-		boolean terminalState = false;
-		boolean placeholder = false;
-		int playerTurn = current.state.localPlayer;
+	private int playthrough(TreeNode current) {
+		AmazonsActionFactory af = new AmazonsActionFactory();
+		AmazonsLocalBoard b = current.state.copy();
+		AmazonsLocalBoard opponentBoard = new AmazonsLocalBoard();
+		opponentBoard.setState(b.getState());
+		opponentBoard.localPlayer = b.getOpponent();
+
+		int winner = Integer.MIN_VALUE;
 		//while nobody has won, run the simulation
-		while (!terminalState) {
-			// TODO Update if conditions with JP's method
-			//We win
-			if (placeholder) {
-				terminalState = true;
+		while (winner < 0) {
+			ArrayList<AmazonsAction> actions = af.getActions(b);
+			//Check win conditions
+			//If opponent color loses
+			if (af.getActions(opponentBoard).size() == 0) {
+				winner = b.localPlayer;
 				break;
 			}
-			//We lose
-			else if (!placeholder) {
+			//If node color loses
+			else if (actions.size() == 0) {
+				winner = b.getOpponent();
 				break;
 			}
 			// Pick a random move
-			ArrayList<AmazonsAction> moves = getAvailableActions();
-			int moveIndex = (int) (Math.random() * (moves.size() - 1));
-			AmazonsAction move = moves.get(moveIndex);
-			// Make the move
-			// this section between the dashes should maybe be a separate method, because
-			// I think we will need to use it in expand as well?
-			//---
+			int moveIndex = (int) (Math.random() * (actions.size() - 1));
+			AmazonsAction move = actions.get(moveIndex);
+			//Make the move
 			TreeNode temp = null;
 			if (root.children.size() == 0) {
 				root.expand();
@@ -115,17 +117,14 @@ public class MonteCarloPlayer extends LocalPlayer {
 			for (TreeNode node : root.children) {
 				// We find the node corresponding to the move we want to make and rebase the tree
 				if (node.getAction().equals(move)) {
-					temp = root;
 					root = node;
 					root.parent = null;
 				}
 			}
-			//---
-			// Change turns & repeat
-			// TODO: fit this to JP's function, we will need to know if player 1 or 2 wins.
-			playerTurn = playerTurn == 2 ? 1 : 2;
+			opponentBoard.localPlayer = b.localPlayer;
+			b.localPlayer = b.getOpponent();
 		}
-		return terminalState;
+		return winner;
 	}
 
 	// TODO

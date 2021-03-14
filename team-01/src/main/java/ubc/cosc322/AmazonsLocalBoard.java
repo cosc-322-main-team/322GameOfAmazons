@@ -70,4 +70,8 @@ public class AmazonsLocalBoard {
 		copy.state = state.stream().collect(Collectors.toCollection(ArrayList::new));
 		return copy;
 	}
+
+	public int getOpponent() {
+		return localPlayer == 2 ? 1 : 2;
+	}
 }
