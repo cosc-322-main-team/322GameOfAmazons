@@ -66,12 +66,12 @@ public class MonteCarloPlayer extends LocalPlayer {
 			currentTime = System.currentTimeMillis() / 1000;
 		}
 
-		root = getBestNode(root);
-		AmazonsAction move = root.getAction();
-		sendMove(move.queenCurrent, move.queenTarget, move.arrowTarget);
+		root = getBestMove(root);
+		AmazonsAction action = root.getAction();
+		sendMove(action.queenCurrent, action.queenTarget, action.arrowTarget);
 	}
 
-	private TreeNode getBestNode(TreeNode root) {
+	private TreeNode getBestMove(TreeNode root) {
 		int maxWins = -1;
 		TreeNode best = null;
 
