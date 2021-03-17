@@ -72,7 +72,7 @@ public abstract class LocalPlayer extends GamePlayer {
         String whitePlayer = getMessageByTag(msgDetails, "player-white");
 
         board.localPlayer = whitePlayer.equals(this.username) ? 1 : 2;
-        System.out.println("***** PLAYER INFO: "+this.username+" "+ board.localPlayer);
+        System.out.println("***** PLAYER INFO: "+this.username+" "+ board.localPlayer+" *****");
         break;
     }
 

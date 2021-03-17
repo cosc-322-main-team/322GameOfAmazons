@@ -92,8 +92,8 @@ public class MonteCarloPlayer extends LocalPlayer {
 				maxWins = wins;
 				best = node;
 			}
-			System.out.println("***** WINS: " + wins + " *****");
-			System.out.println("***** VISITS: " + node.getVisits() + " *****");
+			// System.out.println("***** WINS: " + wins + " *****");
+			// System.out.println("***** VISITS: " + node.getVisits() + " *****");
 		}
 
 		return best;
