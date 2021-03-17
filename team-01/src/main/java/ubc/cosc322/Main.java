@@ -12,7 +12,7 @@ public class Main {
 		// HumanPlayer player = new HumanPlayer();
 		// Spectator player = new Spectator(args[0], args[1]);
 		// RandomPlayer player = new RandomPlayer();
-		MonteCarloPlayer player = new MonteCarloPlayer();
+		 MonteCarloPlayer player = new MonteCarloPlayer();
 
 		if (player.getGameGUI() == null) {
 			player.Go();
