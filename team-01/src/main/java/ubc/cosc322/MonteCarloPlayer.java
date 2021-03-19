@@ -46,29 +46,28 @@ public class MonteCarloPlayer extends LocalPlayer {
 
 	@Override
 	protected void onMoveReceived() {
-		AmazonsLocalBoard rootState = board.copy();
-		root = new TreeNode(rootState);
+		root = new TreeNode(board);
 
 		long startTime = System.currentTimeMillis();
 		long endTime = startTime + MAX_RUNTIME;
-		int count = 0;
-		int winner;
+
+		int iterations = 0;
 		while (System.currentTimeMillis() < endTime) {
 			TreeNode current = getMaxLeaf(root);
 			TreeNode child = current.expand();
 
+			// Check if we reached a terminal state while expanding
 			if (child == null) {
-				//unaccounted for terminal state here so we need to send back the results
 				backpropagate(current, current.state.getOpponent());
 				continue;
 			}
 
-			winner = playthrough(child);
+			int winner = playthrough(child);
 			backpropagate(child, winner);
 
-			count++;
+			iterations++;
 		}
-		System.out.println("***** TOTAL ITERATIONS: " + count + " *****");
+		System.out.println("***** TOTAL ITERATIONS: " + iterations + " *****");
 
 		root = getBestMove(root);
 		AmazonsAction action = root.getAction();
@@ -80,20 +79,14 @@ public class MonteCarloPlayer extends LocalPlayer {
 		TreeNode best = null;
 
 		for (TreeNode node : root.children) {
-			/*
-			 * Flip the wins, we need opponent wins due to how the pattern of our tree works:
-			 * When the board is passed to us, the root will be OUR turn
-			 * the children will all be of the opponents turn
-			 * so in a sense we actually want the node that is ~losing~ the most
-			 */
-
+			// Since wins belong the to state/player, not the action/move, the wins for a given node
+			// actually represent the wins of the next player moving from that node. Therefore, we
+			// calculate the opponent's losses as our comparison value for the root's children.
 			int wins = node.getVisits() - node.getWins();
 			if (wins > maxWins) {
 				maxWins = wins;
 				best = node;
 			}
-			// System.out.println("***** WINS: " + wins + " *****");
-			// System.out.println("***** VISITS: " + node.getVisits() + " *****");
 		}
 
 		return best;
@@ -134,23 +127,24 @@ public class MonteCarloPlayer extends LocalPlayer {
 	}
 
 	private TreeNode getMaxLeaf(TreeNode root) {
-		TreeNode node = root;
+		TreeNode current = root;
 
-		while (node.children.size() != 0) {
+		while (!current.children.isEmpty()) {
 			double maxUCB = Double.MIN_VALUE;
+			TreeNode maxChild = null;
 
-			TreeNode nodetoexpand = null;
-
-			for (TreeNode child : node.children) {
+			for (TreeNode child : current.children) {
 				double ucb = child.getUCB();
 				if (ucb > maxUCB) {
 					maxUCB = ucb;
-					nodetoexpand = child;
+					maxChild = child;
 				}
 			}
-			node = nodetoexpand;
+
+			current = maxChild;
 		}
-		return node;
+
+		return current;
 	}
 
 	private class TreeNode {
@@ -193,11 +187,9 @@ public class MonteCarloPlayer extends LocalPlayer {
 				children.add(new TreeNode(childState, childAction, this));
 			}
 
-			// Return a random child expanded - If we choose only the first node, it will just go down one path.
-			// This is part of why it was just moving to the sad corner
-			int index = (int) (Math.random() * children.size());
-
-			return children.get(index);
+			// Return a random child
+			int randIndex = (int) (Math.random() * children.size());
+			return children.get(randIndex);
 		}
 
 		public int getWins() {
@@ -214,9 +206,9 @@ public class MonteCarloPlayer extends LocalPlayer {
 
 		private double getUCB() {
 			// EXPLORATION_FACTOR = constant defined at the top of the class.
-			// If we hit 0, then the unvisited node should return the exploration factor.
+			// If we hit 0, then the unvisited node should return infinity.
 			if (this.getVisits() == 0) {
-				return EXPLORATION_FACTOR;
+				return Double.MAX_VALUE;
 			}
 
 			// uct = v = total score / number of visits == avg value of the state.

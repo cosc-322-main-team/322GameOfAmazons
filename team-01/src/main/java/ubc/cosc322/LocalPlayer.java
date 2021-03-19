@@ -71,8 +71,8 @@ public abstract class LocalPlayer extends GamePlayer {
       case "cosc322.game-action.start":
         String whitePlayer = getMessageByTag(msgDetails, "player-white");
 
-        board.localPlayer = whitePlayer.equals(this.username) ? 1 : 2;
-        System.out.println("***** PLAYER INFO: "+this.username+" "+ board.localPlayer+" *****");
+        board.localPlayer = whitePlayer.equals(username) ? 1 : 2;
+        System.out.println("***** PLAYER INFO: " + username + " " + board.localPlayer + " *****");
         break;
     }
 
