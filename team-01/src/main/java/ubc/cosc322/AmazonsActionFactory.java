@@ -23,6 +23,11 @@ public class AmazonsActionFactory {
 				// Creating a double array list of all possible arrow moves for the current queen target position
 				ArrayList<ArrayList<Integer>> allArrowTargets = getTargets(queenTarget.get(0), queenTarget.get(1), board);
 
+				ArrayList<Integer> arrowToCurrentQueen = new ArrayList<Integer>();
+				arrowToCurrentQueen.add(queenCurrent.get(0));
+				arrowToCurrentQueen.add(queenCurrent.get(1));
+				allArrowTargets.add(arrowToCurrentQueen);
+
 				while (!allArrowTargets.isEmpty()) {
 					// Iterating through all the arrow target locations and removing them.
 					ArrayList<Integer> arrowTarget = allArrowTargets.remove(0);
