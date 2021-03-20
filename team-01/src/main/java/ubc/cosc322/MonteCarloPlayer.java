@@ -33,7 +33,7 @@ import java.util.ArrayList;
  * 2. Fullstack Academy, https://www.youtube.com/watch?v=Fbs4lnGLS8M
  */
 public class MonteCarloPlayer extends LocalPlayer {
-	private final long MAX_RUNTIME = 10000;
+	private final long MAX_RUNTIME = 25000;
 
 	// The constant used for UCB function. Same one chosen in the John Levine video.
 	private final double EXPLORATION_FACTOR = Math.sqrt(2);
@@ -41,32 +41,33 @@ public class MonteCarloPlayer extends LocalPlayer {
 	private TreeNode root;
 
 	public MonteCarloPlayer() {
-		super("jaden_mc", "montecarlo");
+		super("Dr. Sadboi", "montecarlo");
 	}
 
 	@Override
 	protected void onMoveReceived() {
-		AmazonsLocalBoard rootState = board.copy();
-		rootState.localPlayer = board.getOpponent();
-		root = new TreeNode(rootState);
+		root = new TreeNode(board);
 
 		long startTime = System.currentTimeMillis();
 		long endTime = startTime + MAX_RUNTIME;
 
-		int count = 0;
+		int iterations = 0;
 		while (System.currentTimeMillis() < endTime) {
 			TreeNode current = getMaxLeaf(root);
-			if (current.getVisits() == 0) {
-				int winner = playthrough(current);
-				backpropagate(current, winner);
-			} else {
-				TreeNode child = current.expand();
-				int winner = playthrough(child);
-				backpropagate(child, winner);
+			TreeNode child = current.expand();
+
+			// Check if we reached a terminal state while expanding
+			if (child == null) {
+				backpropagate(current, current.state.getOpponent());
+				continue;
 			}
-			count++;
+
+			int winner = playthrough(child);
+			backpropagate(child, winner);
+
+			iterations++;
 		}
-		System.out.println(count);
+		System.out.println("***** TOTAL ITERATIONS: " + iterations + " *****");
 
 		root = getBestMove(root);
 		AmazonsAction action = root.getAction();
@@ -78,7 +79,10 @@ public class MonteCarloPlayer extends LocalPlayer {
 		TreeNode best = null;
 
 		for (TreeNode node : root.children) {
-			int wins = node.getWins();
+			// Since wins belong the to state/player, not the action/move, the wins for a given node
+			// actually represent the wins of the next player moving from that node. Therefore, we
+			// calculate the opponent's losses as our comparison value for the root's children.
+			int wins = node.getVisits() - node.getWins();
 			if (wins > maxWins) {
 				maxWins = wins;
 				best = node;
@@ -123,38 +127,24 @@ public class MonteCarloPlayer extends LocalPlayer {
 	}
 
 	private TreeNode getMaxLeaf(TreeNode root) {
-		ArrayList<TreeNode> leaves = getLeaves(root);
+		TreeNode current = root;
 
-		if (leaves.isEmpty())
-			return root;
+		while (!current.children.isEmpty()) {
+			double maxUCB = Double.MIN_VALUE;
+			TreeNode maxChild = null;
 
-		int leafIndex = 0;
-		double maxUCB = leaves.get(0).getUCB();
-		for (int i = 1; i < leaves.size(); i++) {
-			double ucb = leaves.get(i).getUCB();
-			if (ucb > maxUCB) {
-				leafIndex = i;
-				maxUCB = ucb;
+			for (TreeNode child : current.children) {
+				double ucb = child.getUCB();
+				if (ucb > maxUCB) {
+					maxUCB = ucb;
+					maxChild = child;
+				}
 			}
+
+			current = maxChild;
 		}
 
-		return leaves.get(leafIndex);
-	}
-
-	private ArrayList<TreeNode> getLeaves(TreeNode root) {
-		ArrayList<TreeNode> leaves = new ArrayList<>();
-
-		for (int i = 0; i < root.children.size(); i++) {
-			TreeNode current = root.children.get(i);
-			// Check if the child has children or is a leaf
-			if (current.children.isEmpty())
-				leaves.add(current);
-			else
-				// Recursively add current's leaves to the list of leaves
-				leaves.addAll(getLeaves(current));
-		}
-
-		return leaves;
+		return current;
 	}
 
 	private class TreeNode {
@@ -176,12 +166,14 @@ public class MonteCarloPlayer extends LocalPlayer {
 			children = new ArrayList<TreeNode>();
 		}
 
-		/**
-		 * Returns the first child expanded.
-		 */
 		public TreeNode expand() {
 			// Get list of possible actions
 			ArrayList<AmazonsAction> actions = actionFactory.getActions(state);
+
+			// Node is fully expanded or cannot be expanded
+			if (actions.size() == children.size()) {
+				return null;
+			}
 
 			// Make new state node for each action
 			for (int i = 0; i < actions.size(); i++) {
@@ -195,8 +187,9 @@ public class MonteCarloPlayer extends LocalPlayer {
 				children.add(new TreeNode(childState, childAction, this));
 			}
 
-			// Return the first child expanded
-			return children.get(0);
+			// Return a random child
+			int randIndex = (int) (Math.random() * children.size());
+			return children.get(randIndex);
 		}
 
 		public int getWins() {
