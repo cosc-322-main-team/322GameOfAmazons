@@ -10,7 +10,7 @@ public class RandomPlayer extends LocalPlayer {
 	@Override
 	protected void move() {
 		ArrayList<AmazonsAction> actions = getAvailableActions();
-		int randomIndex = (int) (Math.random() * (actions.size()));
+		int randomIndex = (int) (Math.random() * actions.size());
 
 		ArrayList<Integer> queenCurrent = actions.get(randomIndex).queenCurrent;
 		ArrayList<Integer> queenTarget = actions.get(randomIndex).queenTarget;
