@@ -101,7 +101,7 @@ public class AmazonsActionFactory {
 			// Check diagonally
 			if (right <= 10 && up <= 10 && isPathClear(x, y, right, up, board))
 				targets.add(new ArrayList<>(Arrays.asList(right, up)));
-			if (right <= 10 && down <= 10 && isPathClear(x, y, right, down, board))
+			if (right <= 10 && down >= 1 && isPathClear(x, y, right, down, board))
 				targets.add(new ArrayList<>(Arrays.asList(right, down)));
 			if (left >= 1 && up <= 10 && isPathClear(x, y, left, up, board))
 				targets.add(new ArrayList<>(Arrays.asList(right, down)));
