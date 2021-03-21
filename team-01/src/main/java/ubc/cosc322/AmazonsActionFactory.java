@@ -38,7 +38,6 @@ public class AmazonsActionFactory {
 				}
 			}
 		}
-		//toString(list);
 		return list;
 	}
 
