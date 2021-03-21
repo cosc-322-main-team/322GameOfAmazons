@@ -104,7 +104,7 @@ public class AmazonsActionFactory {
 			if (right <= 10 && down >= 1 && isPathClear(x, y, right, down, board))
 				targets.add(new ArrayList<>(Arrays.asList(right, down)));
 			if (left >= 1 && up <= 10 && isPathClear(x, y, left, up, board))
-				targets.add(new ArrayList<>(Arrays.asList(right, down)));
+				targets.add(new ArrayList<>(Arrays.asList(left, down)));
 			if (left >= 1 && down >= 1 && isPathClear(x, y, left, down, board))
 				targets.add(new ArrayList<>(Arrays.asList(left, down)));
 		}
