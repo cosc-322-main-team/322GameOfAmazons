@@ -1,6 +1,7 @@
 package ubc.cosc322;
 
 import java.util.ArrayList;
+import java.util.concurrent.ThreadLocalRandom;
 
 /*
  * MONTE-CARLO TREE SEARCH
@@ -33,7 +34,7 @@ import java.util.ArrayList;
  * 2. Fullstack Academy, https://www.youtube.com/watch?v=Fbs4lnGLS8M
  */
 public class MonteCarloPlayer extends LocalPlayer {
-	private final long MAX_RUNTIME = 25000;
+	private final long MAX_RUNTIME = 5000;
 
 	// The constant used for UCB function. Same one chosen in the John Levine video.
 	private final double EXPLORATION_FACTOR = Math.sqrt(2);
@@ -52,26 +53,98 @@ public class MonteCarloPlayer extends LocalPlayer {
 		long endTime = startTime + MAX_RUNTIME;
 
 		int iterations = 0;
-		while (System.currentTimeMillis() < endTime) {
-			TreeNode current = getMaxLeaf(root);
-			TreeNode child = current.expand();
 
-			// Check if we reached a terminal state while expanding
-			if (child == null) {
-				backpropagate(current, current.state.getOpponent());
-				continue;
+		// Expand initial root
+		root.expand();
+		ArrayList<TreeNode> rootChildren = root.children;
+
+		// Create threads
+		int numThreads = 4;
+		int numChildrenPerThread = rootChildren.size() / numThreads;
+
+		Thread[] threads = new Thread[numThreads];
+		MyRunnable[] runnables = new MyRunnable[numThreads];
+
+		for (int i = 0; i < numThreads; i++) {
+			TreeNode threadRoot = new TreeNode(root.state);
+
+			for (int childNum = 0; childNum < numChildrenPerThread; childNum++) {
+				threadRoot.children.add(root.children.get(numChildrenPerThread * i + childNum));
 			}
 
-			int winner = playthrough(child);
-			backpropagate(child, winner);
-
-			iterations++;
+			MyRunnable threadRunnable = new MyRunnable(endTime, threadRoot);
+			Thread thread = new Thread(threadRunnable);
+			threads[i] = thread;
+			runnables[i] = threadRunnable;
+			thread.start();
 		}
+
+		for (int i = 0; i < numThreads; i++) {
+			try {
+				threads[i].join();
+				iterations += runnables[i].iterations;
+			} catch (Exception e) {
+				//
+			}
+		}
+
+
+		System.out.println("Threads are done");
+		//		Thread t1 = new Thread(new MyRunnable(iterations, endTime));
+		//		Thread t2 = new Thread(new MyRunnable(iterations, endTime));
+		//		t1.start();
+		//		t2.start();
+		//				while (System.currentTimeMillis() < endTime) {
+		//					TreeNode current = getMaxLeaf(root);
+		//					TreeNode child = current.expand();
+		//
+		//					// Check if we reached a terminal state while expanding
+		//					if (child == null) {
+		//						backpropagate(current, current.state.getOpponent());
+		//						continue;
+		//					}
+		//
+		//					int winner = playthrough(child);
+		//					backpropagate(child, winner);
+		//
+		//					iterations++;
+		//				}
 		System.out.println("***** TOTAL ITERATIONS: " + iterations + " *****");
 
 		root = getBestMove(root);
 		AmazonsAction action = root.getAction();
 		sendMove(action.queenCurrent, action.queenTarget, action.arrowTarget);
+	}
+
+	private class MyRunnable implements Runnable {
+		long endTime;
+		TreeNode root;
+		public int iterations;
+
+		public MyRunnable(long endTime, TreeNode root) {
+			this.endTime = endTime;
+			this.root = root;
+			iterations = 0;
+		}
+
+		@Override
+		public void run() {
+			 while (System.currentTimeMillis() < endTime) {
+				TreeNode current = getMaxLeaf(root);
+				TreeNode child = current.expand();
+
+				// Check if we reached a terminal state while expanding
+				if (child == null) {
+					backpropagate(current, current.state.getOpponent());
+					continue;
+				}
+
+				int winner = playthrough(child);
+				backpropagate(child, winner);
+
+				iterations++;
+			}
+		}
 	}
 
 	private TreeNode getBestMove(TreeNode root) {
@@ -115,7 +188,8 @@ public class MonteCarloPlayer extends LocalPlayer {
 			}
 
 			// Pick a random move
-			int moveIndex = (int) (Math.random() * actions.size());
+			// int moveIndex = (int) (Math.random() * actions.size());
+			int moveIndex = (int) (ThreadLocalRandom.current().nextDouble() * actions.size());
 			AmazonsAction move = actions.get(moveIndex);
 
 			// Apply the selected move to the state
@@ -188,7 +262,8 @@ public class MonteCarloPlayer extends LocalPlayer {
 			}
 
 			// Return a random child
-			int randIndex = (int) (Math.random() * children.size());
+			// int randIndex = (int) (Math.random() * children.size());
+			int randIndex = (int) (ThreadLocalRandom.current().nextDouble() * children.size());
 			return children.get(randIndex);
 		}
 
