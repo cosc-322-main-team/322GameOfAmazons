@@ -5,6 +5,9 @@ public class Spectator extends LocalPlayer {
     super(username, password);
   }
 
+	@Override
+	protected void playFirstMove() {};
+
   @Override
   protected void onMoveReceived() {
     // Spectators do nothing when receiving a move

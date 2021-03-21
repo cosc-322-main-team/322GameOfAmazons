@@ -8,6 +8,9 @@ public class RandomPlayer extends LocalPlayer {
 	}
 
 	@Override
+	protected void playFirstMove() {};
+
+	@Override
 	protected void onMoveReceived() {
 		ArrayList<AmazonsAction> actions = getAvailableActions();
 		int randomIndex = (int) (Math.random() * (actions.size() + 1));

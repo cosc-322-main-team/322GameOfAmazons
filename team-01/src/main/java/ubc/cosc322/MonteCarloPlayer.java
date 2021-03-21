@@ -74,6 +74,9 @@ public class MonteCarloPlayer extends LocalPlayer {
 		sendMove(action.queenCurrent, action.queenTarget, action.arrowTarget);
 	}
 
+	@Override
+	protected void playFirstMove() {};
+
 	private TreeNode getBestMove(TreeNode root) {
 		int maxWins = -1;
 		TreeNode best = null;

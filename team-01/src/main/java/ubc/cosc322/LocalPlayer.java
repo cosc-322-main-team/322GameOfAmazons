@@ -28,6 +28,9 @@ public abstract class LocalPlayer extends GamePlayer {
   /** Called when the player receives a move message from the server. */
   protected abstract void onMoveReceived();
 
+  /** Called when the player receives a move message from the server. */
+  protected abstract void playFirstMove();
+
   /** Returns the list of actions that can be taken from the current state. */
   protected ArrayList<AmazonsAction> getAvailableActions() {
     return actionFactory.getActions(board);
@@ -73,6 +76,8 @@ public abstract class LocalPlayer extends GamePlayer {
 
         board.localPlayer = whitePlayer.equals(username) ? 1 : 2;
         System.out.println("***** PLAYER INFO: " + username + " " + board.localPlayer + " *****");
+
+        if (board.localPlayer == 2) playFirstMove();
         break;
     }
 
