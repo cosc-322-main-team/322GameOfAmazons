@@ -41,16 +41,6 @@ public class AmazonsActionFactory {
 		return list;
 	}
 
-	/*private boolean isWithinMoves(int queenX, int queenY, int targetX, int targetY, AmazonsLocalBoard board) {
-		// Check if position is within reach of queen
-		boolean isInOrthogonalReach = queenX == targetX || queenY == targetY;
-		boolean isInDiagonalReach = Math.abs(queenX - targetX) == Math.abs(queenY - targetY);
-		boolean isWithinReach = isInOrthogonalReach || isInDiagonalReach;
-
-		// Check if path is clear and return
-		return isWithinReach && isPathClear(queenX, queenY, targetX, targetY, board);
-	}*/
-
 	private boolean isPathClear(int queenX, int queenY, int targetX, int targetY, AmazonsLocalBoard board) {
 		// Initialize currentX and currentY to queen position
 		int currX = queenX;
@@ -86,24 +76,7 @@ public class AmazonsActionFactory {
 		}
 		return queenCurrents;
 	}
-
-	/*private ArrayList<ArrayList<Integer>> getTargets(int x, int y, AmazonsLocalBoard board) {
-		ArrayList<ArrayList<Integer>> targets = new ArrayList<ArrayList<Integer>>();
-		// Iterating a board finding all open target positions for either a queen move or an arrow move.
-		for (int i = 1; i <= 10; i++) {
-			for (int j = 1; j <= 10; j++) {
-				if (i == x && j == y)
-					continue;
-
-				ArrayList<Integer> position = new ArrayList<Integer>(Arrays.asList(i, j));
-				// Checking if the target position is open and if it is within moves.
-				if (board.getPositionValue(position) == 0 && isWithinMoves(x, y, i, j, board)) {
-					targets.add(position);
-				}
-			}
-		}
-		return targets;
-	}*/
+	
 	private ArrayList<ArrayList<Integer>> getTargets(int x, int y, AmazonsLocalBoard board) {
 		ArrayList<ArrayList<Integer>> targets = new ArrayList<ArrayList<Integer>>();
 
