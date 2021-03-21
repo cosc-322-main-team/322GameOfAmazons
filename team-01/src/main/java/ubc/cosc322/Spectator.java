@@ -12,6 +12,6 @@ public class Spectator extends LocalPlayer {
 
   @Override
   protected void move() {
-  	// Spectators do not move
+    // Spectators do not move
   }
 }
