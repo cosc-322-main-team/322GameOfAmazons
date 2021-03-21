@@ -109,7 +109,6 @@ public class AmazonsActionFactory {
 		ArrayList<ArrayList<Integer>> targets = new ArrayList<ArrayList<Integer>>();
 
 		// Iterate vertically Up
-		if (y != 10) {
 			for (int i = y + 1; i <= 10; i++) {
 				if (isPathClear(x, y, x, i, board)) {
 					ArrayList<Integer> position = new ArrayList<Integer>(Arrays.asList(x, i));
@@ -117,9 +116,7 @@ public class AmazonsActionFactory {
 				} else
 					break;
 			}
-		}
 		// Iterate vertically Down
-		if (y != 1) {
 			for (int i = y - 1; i >= 1; i--) {
 				if (isPathClear(x, y, x, i, board)) {
 					ArrayList<Integer> position = new ArrayList<Integer>(Arrays.asList(x, i));
@@ -127,9 +124,7 @@ public class AmazonsActionFactory {
 				} else
 					break;
 			}
-		}
 		// Iterate horizontally Right
-		if (x != 10) {
 			for (int i = x + 1; i <= 10; i++) {
 				if (isPathClear(x, y, i, y, board)) {
 					ArrayList<Integer> position = new ArrayList<Integer>(Arrays.asList(i, y));
@@ -137,9 +132,7 @@ public class AmazonsActionFactory {
 				} else
 					break;
 			}
-		}
 		// Iterate horizontally Left
-		if (x != 0) {
 			for (int i = x - 1; i >= 1; i--) {
 				if (isPathClear(x, y, i, y, board)) {
 					ArrayList<Integer> position = new ArrayList<Integer>(Arrays.asList(i, y));
@@ -147,11 +140,9 @@ public class AmazonsActionFactory {
 				} else
 					break;
 			}
-		}
 		// Iterate diagonally Right up
 		int i = x + 1;
 		int j = y + 1;
-		if (x != 10 && y != 10) {
 			while (i <= 10 && j <= 10) {
 				if (isPathClear(x, y, i, j, board)) {
 					ArrayList<Integer> position = new ArrayList<Integer>(Arrays.asList(i, j));
@@ -161,11 +152,9 @@ public class AmazonsActionFactory {
 				i++;
 				j++;
 			}
-		}
 		// Iterate diagonally Right Down
 		i = x + 1;
 		j = y - 1;
-		if (x != 10 && y != 1) {
 			while (i <= 10 && j >= 1) {
 				if (isPathClear(x, y, i, j, board)) {
 					ArrayList<Integer> position = new ArrayList<Integer>(Arrays.asList(i, j));
@@ -175,11 +164,9 @@ public class AmazonsActionFactory {
 				i++;
 				j--;
 			}
-		}
 		// Iterate diagonally Left Up
 		i = x - 1;
 		j = y + 1;
-		if (x != 1 && y != 10) {
 			while (i >= 1 && j <= 10) {
 				if (isPathClear(x, y, i, j, board)) {
 					ArrayList<Integer> position = new ArrayList<Integer>(Arrays.asList(i, j));
@@ -189,11 +176,9 @@ public class AmazonsActionFactory {
 				i--;
 				j++;
 			}
-		}
 		// Iterate diagonally Left Down
 		i = x - 1;
 		j = y - 1;
-		if (x != 1 && y != 1) {
 			while (i >= 1 && j >= 1) {
 				if (isPathClear(x, y, i, j, board)) {
 					ArrayList<Integer> position = new ArrayList<Integer>(Arrays.asList(i, j));
@@ -203,7 +188,6 @@ public class AmazonsActionFactory {
 				i--;
 				j--;
 			}
-		}
 		return targets;
 	}
 }
