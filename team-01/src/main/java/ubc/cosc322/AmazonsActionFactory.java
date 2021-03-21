@@ -33,6 +33,7 @@ public class AmazonsActionFactory {
 				}
 			}
 		}
+		//toString(list);
 		return list;
 	}
 
@@ -46,7 +47,7 @@ public class AmazonsActionFactory {
 		return isWithinReach && isPathClear(queenX, queenY, targetX, targetY, board);
 	}*/
 
-	private boolean isPathClear(int queenX, int queenY, int targetX, int targetY, AmazonsLocalBoard board) {
+	/*private boolean isPathClear(int queenX, int queenY, int targetX, int targetY, AmazonsLocalBoard board) {
 		// Initialize currentX and currentY to queen position
 		int currX = queenX;
 		int currY = queenY;
@@ -65,7 +66,7 @@ public class AmazonsActionFactory {
 
 		// No obstacle found! The path is clear.
 		return true;
-	}
+	}*/
 
 	private ArrayList<ArrayList<Integer>> getAllQueenCurrents(AmazonsLocalBoard board) {
 		ArrayList<ArrayList<Integer>> queenCurrents = new ArrayList<ArrayList<Integer>>();
@@ -104,7 +105,7 @@ public class AmazonsActionFactory {
 
 		// Iterate vertically Up
 		for(int i = y + 1; i <= 10; i++){
-			if(board.getPositionValue(x, i) != 0){
+			if(board.getPositionValue(x, i) == 0){
 				ArrayList<Integer> position = new ArrayList<Integer>(Arrays.asList(x, i));
 				targets.add(position);
 			}
@@ -113,7 +114,7 @@ public class AmazonsActionFactory {
 		}
 		// Iterate vertically Down
 		for(int i = y - 1; i >= 1; i--){
-			if(board.getPositionValue(y, i) != 0){
+			if(board.getPositionValue(y, i) == 0){
 				ArrayList<Integer> position = new ArrayList<Integer>(Arrays.asList(x, i));
 				targets.add(position);
 			}
@@ -122,7 +123,7 @@ public class AmazonsActionFactory {
 		}
 		// Iterate horizontally Right
 		for(int i = x + 1; i <= 10; i++){
-			if(board.getPositionValue(i, y) != 0){
+			if(board.getPositionValue(i, y) == 0){
 				ArrayList<Integer> position = new ArrayList<Integer>(Arrays.asList(i, y));
 				targets.add(position);
 			}
@@ -131,7 +132,7 @@ public class AmazonsActionFactory {
 		}
 		// Iterate horizontally Left
 		for(int i = x - 1; i >= 1; i--){
-			if(board.getPositionValue(i, y) != 0){
+			if(board.getPositionValue(i, y) == 0){
 				ArrayList<Integer> position = new ArrayList<Integer>(Arrays.asList(i, y));
 				targets.add(position);
 			}
@@ -139,14 +140,63 @@ public class AmazonsActionFactory {
 				break;
 		}
 		// Iterate diagonally Right up
-		int i = x;
-		int j = y;
+		int i = x + 1;
+		int j = y + 1;
 		while(i <= 10 && j <= 10 ){
-
+			if(board.getPositionValue(i, j) == 0){
+				ArrayList<Integer> position = new ArrayList<Integer>(Arrays.asList(i, j));
+				targets.add(position);
+			}
+			else
+				break;
+			i++;
+			j++;
 		}
 		// Iterate diagonally Right Down
+		i = x + 1;
+		j = y - 1;
+		while(i <= 10 && j >= 1 ){
+			if(board.getPositionValue(i, j) == 0){
+				ArrayList<Integer> position = new ArrayList<Integer>(Arrays.asList(i, j));
+				targets.add(position);
+			}
+			else
+				break;
+			i++;
+			j--;
+		}
 		// Iterate diagonally Left Up
+		i = x - 1;
+		j = y + 1;
+		while(i >= 1 && j <= 10 ){
+			if(board.getPositionValue(i, j) == 0){
+				ArrayList<Integer> position = new ArrayList<Integer>(Arrays.asList(i, j));
+				targets.add(position);
+			}
+			else
+				break;
+			i--;
+			j++;
+		}
 		// Iterate diagonally left Down
+		i = x - 1;
+		j = y - 1;
+		while(i >= 1 && j >= 1 ){
+			if(board.getPositionValue(i, j) == 0){
+				ArrayList<Integer> position = new ArrayList<Integer>(Arrays.asList(i, j));
+				targets.add(position);
+			}
+			else
+				break;
+			i--;
+			j--;
+		}
 		return targets;
+	}
+	public void toString(ArrayList<AmazonsAction> list){
+		for(int i = 0; i < list.size(); i++){
+			System.out.print(list.get(i).queenCurrent + " " + list.get(i).queenTarget + " "+ list.get(i).arrowTarget);
+			System.out.print("\n");
+		}
 	}
 }
