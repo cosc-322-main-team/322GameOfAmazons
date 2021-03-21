@@ -28,11 +28,8 @@ public abstract class LocalPlayer extends GamePlayer {
   /** Called when the player receives a move message from the server. */
   protected abstract void onMoveReceived();
 
-  /** Called when the player receives a move message from the server. */
+  /** Computes the next move and sends it to the server. */
   protected abstract void move();
-
-  /** Called when the player receives a move message from the server. */
-  private void playFirstMove() { move(); }
 
   /** Returns the list of actions that can be taken from the current state. */
   protected ArrayList<AmazonsAction> getAvailableActions() {
@@ -46,6 +43,9 @@ public abstract class LocalPlayer extends GamePlayer {
     gameGUI.updateGameState(queenCurrent, queenTarget, arrowTarget);
     gameClient.sendMoveMessage(queenCurrent, queenTarget, arrowTarget);
   }
+
+  /** Called when the game starts if this player is black. */
+  private void playFirstMove() { move(); }
 
   // ===== GamePlayer Overrides ===== //
 
