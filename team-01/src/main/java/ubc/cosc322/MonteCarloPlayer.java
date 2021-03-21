@@ -46,6 +46,11 @@ public class MonteCarloPlayer extends LocalPlayer {
 
 	@Override
 	protected void onMoveReceived() {
+		move();
+	}
+
+	@Override
+	protected void move() {
 		root = new TreeNode(board);
 
 		long startTime = System.currentTimeMillis();
@@ -73,9 +78,6 @@ public class MonteCarloPlayer extends LocalPlayer {
 		AmazonsAction action = root.getAction();
 		sendMove(action.queenCurrent, action.queenTarget, action.arrowTarget);
 	}
-
-	@Override
-	protected void playFirstMove() {};
 
 	private TreeNode getBestMove(TreeNode root) {
 		int maxWins = -1;

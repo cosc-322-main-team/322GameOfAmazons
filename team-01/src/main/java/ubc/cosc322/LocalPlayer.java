@@ -29,7 +29,10 @@ public abstract class LocalPlayer extends GamePlayer {
   protected abstract void onMoveReceived();
 
   /** Called when the player receives a move message from the server. */
-  protected abstract void playFirstMove();
+  protected abstract void move();
+
+  /** Called when the player receives a move message from the server. */
+  private void playFirstMove() { move(); }
 
   /** Returns the list of actions that can be taken from the current state. */
   protected ArrayList<AmazonsAction> getAvailableActions() {
