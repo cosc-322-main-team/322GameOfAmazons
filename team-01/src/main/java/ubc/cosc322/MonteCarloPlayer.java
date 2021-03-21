@@ -45,7 +45,7 @@ public class MonteCarloPlayer extends LocalPlayer {
 	}
 
 	@Override
-	protected void onMoveReceived() {
+	protected void move() {
 		root = new TreeNode(board);
 
 		long startTime = System.currentTimeMillis();
