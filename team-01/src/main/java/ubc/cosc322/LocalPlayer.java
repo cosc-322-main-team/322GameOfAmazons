@@ -25,8 +25,8 @@ public abstract class LocalPlayer extends GamePlayer {
 
   // ===== LocalPlayer API ===== //
 
-  /** Called when the player receives a move message from the server. */
-  protected abstract void onMoveReceived();
+  /** Computes the next move and sends it to the server. */
+  protected abstract void move();
 
   /** Returns the list of actions that can be taken from the current state. */
   protected ArrayList<AmazonsAction> getAvailableActions() {
@@ -40,6 +40,12 @@ public abstract class LocalPlayer extends GamePlayer {
     gameGUI.updateGameState(queenCurrent, queenTarget, arrowTarget);
     gameClient.sendMoveMessage(queenCurrent, queenTarget, arrowTarget);
   }
+
+  /** Called when the player receives a move message from the server. */
+  private void onMoveReceived() { move(); }
+
+  /** Called when the game starts if this player is black. */
+  private void playFirstMove() { move(); }
 
   // ===== GamePlayer Overrides ===== //
 
@@ -73,6 +79,8 @@ public abstract class LocalPlayer extends GamePlayer {
 
         board.localPlayer = whitePlayer.equals(username) ? 1 : 2;
         System.out.println("***** PLAYER INFO: " + username + " " + board.localPlayer + " *****");
+
+        if (board.localPlayer == 2) playFirstMove();
         break;
     }
 
