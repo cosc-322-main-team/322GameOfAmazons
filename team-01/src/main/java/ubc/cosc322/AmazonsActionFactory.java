@@ -76,90 +76,90 @@ public class AmazonsActionFactory {
 		}
 		return queenCurrents;
 	}
-	
+
 	private ArrayList<ArrayList<Integer>> getTargets(int x, int y, AmazonsLocalBoard board) {
 		ArrayList<ArrayList<Integer>> targets = new ArrayList<ArrayList<Integer>>();
 
 		// Iterate vertically Up
-			for (int i = y + 1; i <= 10; i++) {
-				if (isPathClear(x, y, x, i, board)) {
-					ArrayList<Integer> position = new ArrayList<Integer>(Arrays.asList(x, i));
-					targets.add(position);
-				} else
-					break;
-			}
+		for (int i = y + 1; i <= 10; i++) {
+			if (isPathClear(x, y, x, i, board)) {
+				ArrayList<Integer> position = new ArrayList<Integer>(Arrays.asList(x, i));
+				targets.add(position);
+			} else
+				break;
+		}
 		// Iterate vertically Down
-			for (int i = y - 1; i >= 1; i--) {
-				if (isPathClear(x, y, x, i, board)) {
-					ArrayList<Integer> position = new ArrayList<Integer>(Arrays.asList(x, i));
-					targets.add(position);
-				} else
-					break;
-			}
+		for (int i = y - 1; i >= 1; i--) {
+			if (isPathClear(x, y, x, i, board)) {
+				ArrayList<Integer> position = new ArrayList<Integer>(Arrays.asList(x, i));
+				targets.add(position);
+			} else
+				break;
+		}
 		// Iterate horizontally Right
-			for (int i = x + 1; i <= 10; i++) {
-				if (isPathClear(x, y, i, y, board)) {
-					ArrayList<Integer> position = new ArrayList<Integer>(Arrays.asList(i, y));
-					targets.add(position);
-				} else
-					break;
-			}
+		for (int i = x + 1; i <= 10; i++) {
+			if (isPathClear(x, y, i, y, board)) {
+				ArrayList<Integer> position = new ArrayList<Integer>(Arrays.asList(i, y));
+				targets.add(position);
+			} else
+				break;
+		}
 		// Iterate horizontally Left
-			for (int i = x - 1; i >= 1; i--) {
-				if (isPathClear(x, y, i, y, board)) {
-					ArrayList<Integer> position = new ArrayList<Integer>(Arrays.asList(i, y));
-					targets.add(position);
-				} else
-					break;
-			}
+		for (int i = x - 1; i >= 1; i--) {
+			if (isPathClear(x, y, i, y, board)) {
+				ArrayList<Integer> position = new ArrayList<Integer>(Arrays.asList(i, y));
+				targets.add(position);
+			} else
+				break;
+		}
 		// Iterate diagonally Right up
 		int i = x + 1;
 		int j = y + 1;
-			while (i <= 10 && j <= 10) {
-				if (isPathClear(x, y, i, j, board)) {
-					ArrayList<Integer> position = new ArrayList<Integer>(Arrays.asList(i, j));
-					targets.add(position);
-				} else
-					break;
-				i++;
-				j++;
-			}
+		while (i <= 10 && j <= 10) {
+			if (isPathClear(x, y, i, j, board)) {
+				ArrayList<Integer> position = new ArrayList<Integer>(Arrays.asList(i, j));
+				targets.add(position);
+			} else
+				break;
+			i++;
+			j++;
+		}
 		// Iterate diagonally Right Down
 		i = x + 1;
 		j = y - 1;
-			while (i <= 10 && j >= 1) {
-				if (isPathClear(x, y, i, j, board)) {
-					ArrayList<Integer> position = new ArrayList<Integer>(Arrays.asList(i, j));
-					targets.add(position);
-				} else
-					break;
-				i++;
-				j--;
-			}
+		while (i <= 10 && j >= 1) {
+			if (isPathClear(x, y, i, j, board)) {
+				ArrayList<Integer> position = new ArrayList<Integer>(Arrays.asList(i, j));
+				targets.add(position);
+			} else
+				break;
+			i++;
+			j--;
+		}
 		// Iterate diagonally Left Up
 		i = x - 1;
 		j = y + 1;
-			while (i >= 1 && j <= 10) {
-				if (isPathClear(x, y, i, j, board)) {
-					ArrayList<Integer> position = new ArrayList<Integer>(Arrays.asList(i, j));
-					targets.add(position);
-				} else
-					break;
-				i--;
-				j++;
-			}
+		while (i >= 1 && j <= 10) {
+			if (isPathClear(x, y, i, j, board)) {
+				ArrayList<Integer> position = new ArrayList<Integer>(Arrays.asList(i, j));
+				targets.add(position);
+			} else
+				break;
+			i--;
+			j++;
+		}
 		// Iterate diagonally Left Down
 		i = x - 1;
 		j = y - 1;
-			while (i >= 1 && j >= 1) {
-				if (isPathClear(x, y, i, j, board)) {
-					ArrayList<Integer> position = new ArrayList<Integer>(Arrays.asList(i, j));
-					targets.add(position);
-				} else
-					break;
-				i--;
-				j--;
-			}
+		while (i >= 1 && j >= 1) {
+			if (isPathClear(x, y, i, j, board)) {
+				ArrayList<Integer> position = new ArrayList<Integer>(Arrays.asList(i, j));
+				targets.add(position);
+			} else
+				break;
+			i--;
+			j--;
+		}
 		return targets;
 	}
 }
