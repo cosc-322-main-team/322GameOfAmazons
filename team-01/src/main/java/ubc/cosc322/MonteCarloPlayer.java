@@ -41,7 +41,7 @@ public class MonteCarloPlayer extends LocalPlayer {
 	private TreeNode root;
 
 	public MonteCarloPlayer() {
-		super("Dr. BugBoi", "montecarlo");
+		super("owo daddy 😩🍆💦", "montecarlo");
 	}
 
 	@Override
