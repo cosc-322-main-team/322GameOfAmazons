@@ -25,9 +25,6 @@ public abstract class LocalPlayer extends GamePlayer {
 
   // ===== LocalPlayer API ===== //
 
-  /** Called when the player receives a move message from the server. */
-  protected abstract void onMoveReceived();
-
   /** Computes the next move and sends it to the server. */
   protected abstract void move();
 
@@ -43,6 +40,9 @@ public abstract class LocalPlayer extends GamePlayer {
     gameGUI.updateGameState(queenCurrent, queenTarget, arrowTarget);
     gameClient.sendMoveMessage(queenCurrent, queenTarget, arrowTarget);
   }
+
+  /** Called when the player receives a move message from the server. */
+  private void onMoveReceived() { move(); }
 
   /** Called when the game starts if this player is black. */
   private void playFirstMove() { move(); }

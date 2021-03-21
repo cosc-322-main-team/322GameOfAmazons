@@ -45,11 +45,6 @@ public class MonteCarloPlayer extends LocalPlayer {
 	}
 
 	@Override
-	protected void onMoveReceived() {
-		move();
-	}
-
-	@Override
 	protected void move() {
 		root = new TreeNode(board);
 
