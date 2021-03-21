@@ -47,7 +47,7 @@ public class AmazonsActionFactory {
 		return isWithinReach && isPathClear(queenX, queenY, targetX, targetY, board);
 	}*/
 
-	/*private boolean isPathClear(int queenX, int queenY, int targetX, int targetY, AmazonsLocalBoard board) {
+	private boolean isPathClear(int queenX, int queenY, int targetX, int targetY, AmazonsLocalBoard board) {
 		// Initialize currentX and currentY to queen position
 		int currX = queenX;
 		int currY = queenY;
@@ -66,7 +66,7 @@ public class AmazonsActionFactory {
 
 		// No obstacle found! The path is clear.
 		return true;
-	}*/
+	}
 
 	private ArrayList<ArrayList<Integer>> getAllQueenCurrents(AmazonsLocalBoard board) {
 		ArrayList<ArrayList<Integer>> queenCurrents = new ArrayList<ArrayList<Integer>>();
@@ -100,96 +100,104 @@ public class AmazonsActionFactory {
 		}
 		return targets;
 	}*/
-	private ArrayList<ArrayList<Integer>> getTargets(int x, int y, AmazonsLocalBoard board){
+	private ArrayList<ArrayList<Integer>> getTargets(int x, int y, AmazonsLocalBoard board) {
 		ArrayList<ArrayList<Integer>> targets = new ArrayList<ArrayList<Integer>>();
 
 		// Iterate vertically Up
-		for(int i = y + 1; i <= 10; i++){
-			if(board.getPositionValue(x, i) == 0){
-				ArrayList<Integer> position = new ArrayList<Integer>(Arrays.asList(x, i));
-				targets.add(position);
+		if (y != 10) {
+			for (int i = y + 1; i <= 10; i++) {
+				if (isPathClear(x,y,x,i,board)) {
+					ArrayList<Integer> position = new ArrayList<Integer>(Arrays.asList(x, i));
+					targets.add(position);
+				} else
+					break;
 			}
-			else
-				break;
 		}
 		// Iterate vertically Down
-		for(int i = y - 1; i >= 1; i--){
-			if(board.getPositionValue(y, i) == 0){
-				ArrayList<Integer> position = new ArrayList<Integer>(Arrays.asList(x, i));
-				targets.add(position);
+		if (y != 1) {
+			for (int i = y - 1; i >= 1; i--) {
+				if (isPathClear(x,y,x,i,board)) {
+					ArrayList<Integer> position = new ArrayList<Integer>(Arrays.asList(x, i));
+					targets.add(position);
+				} else
+					break;
 			}
-			else
-				break;
 		}
 		// Iterate horizontally Right
-		for(int i = x + 1; i <= 10; i++){
-			if(board.getPositionValue(i, y) == 0){
-				ArrayList<Integer> position = new ArrayList<Integer>(Arrays.asList(i, y));
-				targets.add(position);
+		if (x != 10) {
+			for (int i = x + 1; i <= 10; i++) {
+				if (isPathClear(x,y,i,y,board)) {
+					ArrayList<Integer> position = new ArrayList<Integer>(Arrays.asList(i, y));
+					targets.add(position);
+				} else
+					break;
 			}
-			else
-				break;
 		}
 		// Iterate horizontally Left
-		for(int i = x - 1; i >= 1; i--){
-			if(board.getPositionValue(i, y) == 0){
-				ArrayList<Integer> position = new ArrayList<Integer>(Arrays.asList(i, y));
-				targets.add(position);
+		if (x != 0) {
+			for (int i = x - 1; i >= 1; i--) {
+				if (isPathClear(x,y,i,y,board)) {
+					ArrayList<Integer> position = new ArrayList<Integer>(Arrays.asList(i, y));
+					targets.add(position);
+				} else
+					break;
 			}
-			else
-				break;
 		}
 		// Iterate diagonally Right up
 		int i = x + 1;
 		int j = y + 1;
-		while(i <= 10 && j <= 10 ){
-			if(board.getPositionValue(i, j) == 0){
-				ArrayList<Integer> position = new ArrayList<Integer>(Arrays.asList(i, j));
-				targets.add(position);
+		if(x != 10 && y != 10) {
+			while (i <= 10 && j <= 10) {
+				if (isPathClear(x,y,i,j,board)) {
+					ArrayList<Integer> position = new ArrayList<Integer>(Arrays.asList(i, j));
+					targets.add(position);
+				} else
+					break;
+				i++;
+				j++;
 			}
-			else
-				break;
-			i++;
-			j++;
 		}
 		// Iterate diagonally Right Down
 		i = x + 1;
 		j = y - 1;
-		while(i <= 10 && j >= 1 ){
-			if(board.getPositionValue(i, j) == 0){
-				ArrayList<Integer> position = new ArrayList<Integer>(Arrays.asList(i, j));
-				targets.add(position);
+		if(x != 10 && y != 1) {
+			while (i <= 10 && j >= 1) {
+				if (isPathClear(x,y,i,j,board)) {
+					ArrayList<Integer> position = new ArrayList<Integer>(Arrays.asList(i, j));
+					targets.add(position);
+				} else
+					break;
+				i++;
+				j--;
 			}
-			else
-				break;
-			i++;
-			j--;
 		}
 		// Iterate diagonally Left Up
 		i = x - 1;
 		j = y + 1;
-		while(i >= 1 && j <= 10 ){
-			if(board.getPositionValue(i, j) == 0){
-				ArrayList<Integer> position = new ArrayList<Integer>(Arrays.asList(i, j));
-				targets.add(position);
+		if(x != 1 && y != 10) {
+			while (i >= 1 && j <= 10) {
+				if (isPathClear(x,y,i,j,board)) {
+					ArrayList<Integer> position = new ArrayList<Integer>(Arrays.asList(i, j));
+					targets.add(position);
+				} else
+					break;
+				i--;
+				j++;
 			}
-			else
-				break;
-			i--;
-			j++;
 		}
 		// Iterate diagonally left Down
 		i = x - 1;
 		j = y - 1;
-		while(i >= 1 && j >= 1 ){
-			if(board.getPositionValue(i, j) == 0){
-				ArrayList<Integer> position = new ArrayList<Integer>(Arrays.asList(i, j));
-				targets.add(position);
+		if(x != 1 && y != 1) {
+			while (i >= 1 && j >= 1) {
+				if (isPathClear(x,y,i,j,board)) {
+					ArrayList<Integer> position = new ArrayList<Integer>(Arrays.asList(i, j));
+					targets.add(position);
+				} else
+					break;
+				i--;
+				j--;
 			}
-			else
-				break;
-			i--;
-			j--;
 		}
 		return targets;
 	}
