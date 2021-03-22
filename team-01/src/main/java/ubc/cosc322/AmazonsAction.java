@@ -1,13 +1,13 @@
 package ubc.cosc322;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class AmazonsAction {
-	public ArrayList<Integer> queenCurrent;
-	public ArrayList<Integer> queenTarget;
-	public ArrayList<Integer> arrowTarget;
+	public List<Integer> queenCurrent;
+	public List<Integer> queenTarget;
+	public List<Integer> arrowTarget;
 
-	public AmazonsAction(ArrayList<Integer> queenCurrent, ArrayList<Integer> queenTarget, ArrayList<Integer> arrowTarget) {
+	public AmazonsAction(List<Integer> queenCurrent, List<Integer> queenTarget, List<Integer> arrowTarget) {
 		this.queenCurrent = queenCurrent;
 		this.queenTarget = queenTarget;
 		this.arrowTarget = arrowTarget;
