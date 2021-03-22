@@ -2,7 +2,7 @@ package ubc.cosc322;
 
 import java.util.Map;
 import java.util.ArrayList;
-
+import java.util.List;
 import ygraph.ai.smartfox.games.BaseGameGUI;
 import ygraph.ai.smartfox.games.GameClient;
 import ygraph.ai.smartfox.games.GamePlayer;
@@ -34,18 +34,22 @@ public abstract class LocalPlayer extends GamePlayer {
   }
 
   /** Sends a move to the server and updates the local state accordingly. */
-  protected void sendMove(ArrayList<Integer> queenCurrent, ArrayList<Integer> queenTarget, ArrayList<Integer> arrowTarget) {
+  protected void sendMove(List<Integer> queenCurrent, List<Integer> queenTarget, List<Integer> arrowTarget) {
     board.updateState(queenCurrent, queenTarget, arrowTarget);
     board.printState();
-    gameGUI.updateGameState(queenCurrent, queenTarget, arrowTarget);
-    gameClient.sendMoveMessage(queenCurrent, queenTarget, arrowTarget);
+    gameGUI.updateGameState(new ArrayList<>(queenCurrent), new ArrayList<>(queenTarget), new ArrayList<>(arrowTarget));
+    gameClient.sendMoveMessage(new ArrayList<>(queenCurrent), new ArrayList<>(queenTarget), new ArrayList<>(arrowTarget));
   }
 
   /** Called when the player receives a move message from the server. */
-  private void onMoveReceived() { move(); }
+  private void onMoveReceived() {
+    move();
+  }
 
   /** Called when the game starts if this player is black. */
-  private void playFirstMove() { move(); }
+  private void playFirstMove() {
+    move();
+  }
 
   // ===== GamePlayer Overrides ===== //
 
@@ -80,7 +84,8 @@ public abstract class LocalPlayer extends GamePlayer {
         board.localPlayer = whitePlayer.equals(username) ? 1 : 2;
         System.out.println("***** PLAYER INFO: " + username + " " + board.localPlayer + " *****");
 
-        if (board.localPlayer == 2) playFirstMove();
+        if (board.localPlayer == 2)
+          playFirstMove();
         break;
     }
 
