@@ -37,12 +37,12 @@ public class AmazonsLocalBoard {
 		setPositionValue(arrowTarget, 3);
 	}
 
-	public int getPositionValue(int x, int y) {
-		return getPositionValue(new ArrayList<>(Arrays.asList(x, y)));
-	}
-
 	public int getPositionValue(ArrayList<Integer> position) {
 		return state.get(getIndex(position));
+	}
+
+	public int getPositionValue(int x, int y) {
+		return state.get(getIndex(x, y));
 	}
 
 	public void setPositionValue(ArrayList<Integer> position, int value) {
@@ -60,7 +60,11 @@ public class AmazonsLocalBoard {
 	private int getIndex(ArrayList<Integer> position) {
 		int row = position.get(0);
 		int col = position.get(1);
-		return TOTAL_LENGTH - row * ROW_LENGTH + col;
+		return getIndex(row, col);
+	}
+
+	private int getIndex(int x, int y) {
+		return TOTAL_LENGTH - x * ROW_LENGTH + y;
 	}
 
 	/**
