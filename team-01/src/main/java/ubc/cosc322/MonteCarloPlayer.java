@@ -34,7 +34,7 @@ import java.util.concurrent.ThreadLocalRandom;
  * 2. Fullstack Academy, https://www.youtube.com/watch?v=Fbs4lnGLS8M
  */
 public class MonteCarloPlayer extends LocalPlayer {
-	private final long MAX_RUNTIME = 5000;
+	private final long MAX_RUNTIME = 10000;
 	private final int NUM_THREADS = 4;
 
 	// The constant used for UCB function. Same one chosen in the John Levine video.
@@ -43,7 +43,7 @@ public class MonteCarloPlayer extends LocalPlayer {
 	private TreeNode root;
 
 	public MonteCarloPlayer() {
-		super("owo daddy 😩🍆💦", "montecarlo");
+		super("my twurn uwu 🥺😳", "montecarlo");
 	}
 
 	@Override
@@ -70,14 +70,12 @@ public class MonteCarloPlayer extends LocalPlayer {
 			int startIdx = threadChildCount * threadIdx;
 			int endIdx = threadChildCount * (threadIdx + 1);
 			threadRoot.children = new ArrayList<>(rootChildren.subList(startIdx, endIdx));
-			System.out.println("From " + startIdx + " to " + endIdx);
 
 			// Give the first thread any extra children (due to integer rounding)
 			if (threadIdx == 0) {
 				startIdx = rootChildren.size() - extraChildCount;
 				endIdx = rootChildren.size();
 				threadRoot.children.addAll(new ArrayList<>(rootChildren.subList(startIdx, endIdx)));
-				System.out.println("EXTRA: From " + startIdx + " to " + endIdx);
 			}
 
 			// Start the threads
