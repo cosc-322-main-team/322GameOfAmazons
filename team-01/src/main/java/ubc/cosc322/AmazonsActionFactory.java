@@ -41,27 +41,6 @@ public class AmazonsActionFactory {
 		return list;
 	}
 
-	private boolean isPathClear(int queenX, int queenY, int targetX, int targetY, AmazonsLocalBoard board) {
-		// Initialize currentX and currentY to queen position
-		int currX = queenX;
-		int currY = queenY;
-
-		// While we haven't reached the target
-		while (currX != targetX || currY != targetY) {
-			// Advance towards the target by 1, regardless of whether target is
-			// above, below, on the right or on the left of queen, or how far the target is
-			currX += Math.signum(targetX - currX);
-			currY += Math.signum(targetY - currY);
-
-			// If we find an obstacle, return false
-			if (board.getPositionValue(currX, currY) != 0)
-				return false;
-		}
-
-		// No obstacle found! The path is clear.
-		return true;
-	}
-
 	private ArrayList<ArrayList<Integer>> getAllQueenCurrents(AmazonsLocalBoard board) {
 		ArrayList<ArrayList<Integer>> queenCurrents = new ArrayList<>();
 		// Iterating through the entire board finding each queen position.
@@ -86,27 +65,77 @@ public class AmazonsActionFactory {
 			int right = x + dist;
 			int left = x - dist;
 
-			// Check vertically
-			if (up <= 10 && isPathClear(x, y, x, up, board))
-				targets.add(new ArrayList<>(Arrays.asList(x, up)));
-			if (down >= 1 && isPathClear(x, y, x, down, board))
-				targets.add(new ArrayList<>(Arrays.asList(x, down)));
+			boolean isUpBlocked = false;
+			if (!isUpBlocked) {
+				if (up > 10 || board.getPositionValue(x, up) != 0) {
+					isUpBlocked = true;
+				} else {
+					targets.add(new ArrayList<>(Arrays.asList(x, up)));
+				}
+			}
 
-			// Check horizontally
-			if (right <= 10 && isPathClear(x, y, right, y, board))
-				targets.add(new ArrayList<>(Arrays.asList(right, y)));
-			if (left >= 1 && isPathClear(x, y, left, y, board))
-				targets.add(new ArrayList<>(Arrays.asList(left, y)));
+			boolean isDownBlocked = false;
+			if (!isDownBlocked) {
+				if (down < 1 || board.getPositionValue(x, down) != 0) {
+					isDownBlocked = true;
+				} else {
+					targets.add(new ArrayList<>(Arrays.asList(x, down)));
+				}
+			}
 
-			// Check diagonally
-			if (right <= 10 && up <= 10 && isPathClear(x, y, right, up, board))
-				targets.add(new ArrayList<>(Arrays.asList(right, up)));
-			if (right <= 10 && down >= 1 && isPathClear(x, y, right, down, board))
-				targets.add(new ArrayList<>(Arrays.asList(right, down)));
-			if (left >= 1 && up <= 10 && isPathClear(x, y, left, up, board))
-				targets.add(new ArrayList<>(Arrays.asList(left, up)));
-			if (left >= 1 && down >= 1 && isPathClear(x, y, left, down, board))
-				targets.add(new ArrayList<>(Arrays.asList(left, down)));
+			boolean isRightBlocked = false;
+			if (!isRightBlocked) {
+				if (right > 10 || board.getPositionValue(right, y) != 0) {
+					isRightBlocked = true;
+				} else {
+					targets.add(new ArrayList<>(Arrays.asList(right, y)));
+				}
+			}
+
+			boolean isLeftBlocked = false;
+			if (!isLeftBlocked) {
+				if (left < 1 || board.getPositionValue(left, y) != 0) {
+					isLeftBlocked = true;
+				} else {
+					targets.add(new ArrayList<>(Arrays.asList(left, y)));
+				}
+			}
+
+			boolean isRightUpBlocked = false;
+			if (!isRightUpBlocked) {
+				if (right > 10 || up > 10 || board.getPositionValue(right, up) != 0) {
+					isRightUpBlocked = true;
+				} else {
+					targets.add(new ArrayList<>(Arrays.asList(right, up)));
+				}
+			}
+
+			boolean isRightDownBlocked = false;
+			if (!isRightDownBlocked) {
+				if (right > 10 || down < 1 || board.getPositionValue(right, down) != 0) {
+					isRightDownBlocked = true;
+				} else {
+					targets.add(new ArrayList<>(Arrays.asList(right, down)));
+				}
+			}
+
+			boolean isLeftUpBlocked = false;
+			if (!isLeftUpBlocked) {
+				if (left < 1 || up > 10 || board.getPositionValue(left, up) != 0) {
+					isLeftUpBlocked = true;
+				} else {
+					targets.add(new ArrayList<>(Arrays.asList(left, up)));
+				}
+			}
+
+			boolean isLeftDownBlocked = false;
+			if (!isLeftDownBlocked) {
+				if (left < 1 || down < 1 || board.getPositionValue(left, down) != 0) {
+					isLeftDownBlocked = true;
+				} else {
+					targets.add(new ArrayList<>(Arrays.asList(left, down)));
+				}
+			}
 		}
 
 		return targets;
