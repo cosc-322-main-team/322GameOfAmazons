@@ -33,7 +33,7 @@ import java.util.ArrayList;
  * 2. Fullstack Academy, https://www.youtube.com/watch?v=Fbs4lnGLS8M
  */
 public class MonteCarloPlayer extends LocalPlayer {
-	private final long MAX_RUNTIME = 25000;
+	private final long MAX_RUNTIME = 5000;
 
 	// The constant used for UCB function. Same one chosen in the John Levine video.
 	private final double EXPLORATION_FACTOR = Math.sqrt(2);
@@ -41,7 +41,7 @@ public class MonteCarloPlayer extends LocalPlayer {
 	private TreeNode root;
 
 	public MonteCarloPlayer() {
-		super("Dr. Sadboi", "montecarlo");
+		super("owo daddy 😩🍆💦", "montecarlo");
 	}
 
 	@Override
