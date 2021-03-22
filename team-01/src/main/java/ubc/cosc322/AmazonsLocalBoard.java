@@ -73,7 +73,7 @@ public class AmazonsLocalBoard {
 	public AmazonsLocalBoard copy() {
 		AmazonsLocalBoard copy = new AmazonsLocalBoard();
 		copy.localPlayer = localPlayer;
-		copy.state = state.stream().collect(Collectors.toCollection(ArrayList::new));
+		copy.state = new ArrayList<>(state);
 		return copy;
 	}
 
