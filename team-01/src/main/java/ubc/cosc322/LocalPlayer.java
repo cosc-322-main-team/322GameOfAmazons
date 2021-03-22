@@ -42,10 +42,14 @@ public abstract class LocalPlayer extends GamePlayer {
   }
 
   /** Called when the player receives a move message from the server. */
-  private void onMoveReceived() { move(); }
+  private void onMoveReceived() {
+    move();
+  }
 
   /** Called when the game starts if this player is black. */
-  private void playFirstMove() { move(); }
+  private void playFirstMove() {
+    move();
+  }
 
   // ===== GamePlayer Overrides ===== //
 
@@ -58,6 +62,15 @@ public abstract class LocalPlayer extends GamePlayer {
         board.setState(gameState);
         board.printState();
         gameGUI.setGameState(gameState);
+
+        // TEMP: Testing for efficiency
+        System.out.println("Starting testing");
+        ArrayTester tester = new ArrayTester();
+        tester.testAsListOverloaded(1000000);
+        tester.testAsList(1000000);
+        tester.testStream(1000000);
+        tester.testCache(1000000);
+        System.out.println("Done testing");
 
         break;
 
@@ -80,7 +93,8 @@ public abstract class LocalPlayer extends GamePlayer {
         board.localPlayer = whitePlayer.equals(username) ? 1 : 2;
         System.out.println("***** PLAYER INFO: " + username + " " + board.localPlayer + " *****");
 
-        if (board.localPlayer == 2) playFirstMove();
+        if (board.localPlayer == 2)
+          playFirstMove();
         break;
     }
 
