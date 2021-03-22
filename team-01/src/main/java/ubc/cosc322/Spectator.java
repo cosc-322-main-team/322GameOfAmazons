@@ -6,7 +6,7 @@ public class Spectator extends LocalPlayer {
   }
 
   @Override
-  protected void onMoveReceived() {
-    // Spectators do nothing when receiving a move
+  protected void move() {
+    // Spectators do not move
   }
 }

@@ -1,6 +1,7 @@
 package ubc.cosc322;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class RandomPlayer extends LocalPlayer {
 	public RandomPlayer() {
@@ -8,13 +9,13 @@ public class RandomPlayer extends LocalPlayer {
 	}
 
 	@Override
-	protected void onMoveReceived() {
+	protected void move() {
 		ArrayList<AmazonsAction> actions = getAvailableActions();
-		int randomIndex = (int) (Math.random() * (actions.size() + 1));
+		int randomIndex = (int) (Math.random() * actions.size());
 
-		ArrayList<Integer> queenCurrent = actions.get(randomIndex).queenCurrent;
-		ArrayList<Integer> queenTarget = actions.get(randomIndex).queenTarget;
-		ArrayList<Integer> arrowTarget = actions.get(randomIndex).arrowTarget;
+		List<Integer> queenCurrent = actions.get(randomIndex).queenCurrent;
+		List<Integer> queenTarget = actions.get(randomIndex).queenTarget;
+		List<Integer> arrowTarget = actions.get(randomIndex).arrowTarget;
 
 		sendMove(queenCurrent, queenTarget, arrowTarget);
 	}

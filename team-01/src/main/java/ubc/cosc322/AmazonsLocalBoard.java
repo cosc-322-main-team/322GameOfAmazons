@@ -1,7 +1,7 @@
 package ubc.cosc322;
 
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.List;
 import java.util.stream.Collectors;
 
 public class AmazonsLocalBoard {
@@ -30,22 +30,22 @@ public class AmazonsLocalBoard {
 		updateState(action.queenCurrent, action.queenTarget, action.arrowTarget);
 	}
 
-	public void updateState(ArrayList<Integer> queenCurrent, ArrayList<Integer> queenTarget, ArrayList<Integer> arrowTarget) {
+	public void updateState(List<Integer> queenCurrent, List<Integer> queenTarget, List<Integer> arrowTarget) {
 		int playerColor = getPositionValue(queenCurrent);
 		setPositionValue(queenCurrent, 0);
 		setPositionValue(queenTarget, playerColor);
 		setPositionValue(arrowTarget, 3);
 	}
 
-	public int getPositionValue(int x, int y) {
-		return getPositionValue(new ArrayList<>(Arrays.asList(x, y)));
-	}
-
-	public int getPositionValue(ArrayList<Integer> position) {
+	public int getPositionValue(List<Integer> position) {
 		return state.get(getIndex(position));
 	}
 
-	public void setPositionValue(ArrayList<Integer> position, int value) {
+	public int getPositionValue(int x, int y) {
+		return state.get(getIndex(x, y));
+	}
+
+	public void setPositionValue(List<Integer> position, int value) {
 		state.set(getIndex(position), value);
 	}
 
@@ -57,10 +57,14 @@ public class AmazonsLocalBoard {
 		System.out.println();
 	}
 
-	private int getIndex(ArrayList<Integer> position) {
+	private int getIndex(List<Integer> position) {
 		int row = position.get(0);
 		int col = position.get(1);
-		return TOTAL_LENGTH - row * ROW_LENGTH + col;
+		return getIndex(row, col);
+	}
+
+	private int getIndex(int x, int y) {
+		return TOTAL_LENGTH - x * ROW_LENGTH + y;
 	}
 
 	/**
@@ -69,7 +73,7 @@ public class AmazonsLocalBoard {
 	public AmazonsLocalBoard copy() {
 		AmazonsLocalBoard copy = new AmazonsLocalBoard();
 		copy.localPlayer = localPlayer;
-		copy.state = state.stream().collect(Collectors.toCollection(ArrayList::new));
+		copy.state = new ArrayList<>(state);
 		return copy;
 	}
 

@@ -42,11 +42,11 @@ public class MonteCarloPlayer extends LocalPlayer {
 	private TreeNode root;
 
 	public MonteCarloPlayer() {
-		super("Dr. Sadboi", "montecarlo");
+		super("owo daddy 😩🍆💦", "montecarlo");
 	}
 
 	@Override
-	protected void onMoveReceived() {
+	protected void move() {
 		root = new TreeNode(board);
 
 		long startTime = System.currentTimeMillis();
