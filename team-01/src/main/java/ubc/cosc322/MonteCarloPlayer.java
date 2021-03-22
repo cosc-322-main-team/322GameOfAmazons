@@ -147,7 +147,6 @@ public class MonteCarloPlayer extends LocalPlayer {
 			}
 
 			// Pick a random move
-			// int moveIndex = (int) (Math.random() * actions.size());
 			int moveIndex = (int) (ThreadLocalRandom.current().nextDouble() * actions.size());
 			AmazonsAction move = actions.get(moveIndex);
 
@@ -252,7 +251,6 @@ public class MonteCarloPlayer extends LocalPlayer {
 			}
 
 			// Return a random child
-			// int randIndex = (int) (Math.random() * children.size());
 			int randIndex = (int) (ThreadLocalRandom.current().nextDouble() * children.size());
 			return children.get(randIndex);
 		}
