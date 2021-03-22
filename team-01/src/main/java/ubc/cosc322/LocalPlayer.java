@@ -63,15 +63,6 @@ public abstract class LocalPlayer extends GamePlayer {
         board.printState();
         gameGUI.setGameState(gameState);
 
-        // TEMP: Testing for efficiency
-        System.out.println("Starting testing");
-        ArrayTester tester = new ArrayTester();
-        tester.testAsListOverloaded(1000000);
-        tester.testAsList(1000000);
-        tester.testStream(1000000);
-        tester.testCache(1000000);
-        System.out.println("Done testing");
-
         break;
 
       case "cosc322.game-action.move":
