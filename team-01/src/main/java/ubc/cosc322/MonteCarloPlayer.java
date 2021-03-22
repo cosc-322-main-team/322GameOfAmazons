@@ -35,6 +35,7 @@ import java.util.concurrent.ThreadLocalRandom;
  */
 public class MonteCarloPlayer extends LocalPlayer {
 	private final long MAX_RUNTIME = 5000;
+	private final int NUM_THREADS = 4;
 
 	// The constant used for UCB function. Same one chosen in the John Levine video.
 	private final double EXPLORATION_FACTOR = Math.sqrt(2);
@@ -49,102 +50,60 @@ public class MonteCarloPlayer extends LocalPlayer {
 	protected void move() {
 		root = new TreeNode(board);
 
-		long startTime = System.currentTimeMillis();
-		long endTime = startTime + MAX_RUNTIME;
-
+		long endTime = System.currentTimeMillis() + MAX_RUNTIME;
 		int iterations = 0;
 
 		// Expand initial root
 		root.expand();
 		ArrayList<TreeNode> rootChildren = root.children;
 
-		// Create threads
-		int numThreads = 4;
-		int numChildrenPerThread = rootChildren.size() / numThreads;
+		Thread[] threads = new Thread[NUM_THREADS];
+		MonteCarloRunnable[] runnables = new MonteCarloRunnable[NUM_THREADS];
 
-		Thread[] threads = new Thread[numThreads];
-		MyRunnable[] runnables = new MyRunnable[numThreads];
-
-		for (int i = 0; i < numThreads; i++) {
+		// Split iterations across threads
+		int threadChildCount = rootChildren.size() / NUM_THREADS;
+		int extraChildCount = rootChildren.size() % NUM_THREADS;
+		for (int threadIdx = 0; threadIdx < NUM_THREADS; threadIdx++) {
 			TreeNode threadRoot = new TreeNode(root.state);
 
-			for (int childNum = 0; childNum < numChildrenPerThread; childNum++) {
-				threadRoot.children.add(root.children.get(numChildrenPerThread * i + childNum));
+			// Update this thread's root with its section of the children
+			int startIdx = threadChildCount * threadIdx;
+			int endIdx = threadChildCount * (threadIdx + 1);
+			threadRoot.children = new ArrayList<>(rootChildren.subList(startIdx, endIdx));
+			System.out.println("From " + startIdx + " to " + endIdx);
+
+			// Give the first thread any extra children (due to integer rounding)
+			if (threadIdx == 0) {
+				startIdx = rootChildren.size() - extraChildCount;
+				endIdx = rootChildren.size();
+				threadRoot.children.addAll(new ArrayList<>(rootChildren.subList(startIdx, endIdx)));
+				System.out.println("EXTRA: From " + startIdx + " to " + endIdx);
 			}
 
-			MyRunnable threadRunnable = new MyRunnable(endTime, threadRoot);
+			// Start the threads
+			MonteCarloRunnable threadRunnable = new MonteCarloRunnable(threadRoot, endTime);
+			runnables[threadIdx] = threadRunnable;
+
 			Thread thread = new Thread(threadRunnable);
-			threads[i] = thread;
-			runnables[i] = threadRunnable;
+			threads[threadIdx] = thread;
 			thread.start();
 		}
 
-		for (int i = 0; i < numThreads; i++) {
+		// Sync all threads and wait for completion
+		for (int i = 0; i < NUM_THREADS; i++) {
 			try {
 				threads[i].join();
 				iterations += runnables[i].iterations;
 			} catch (Exception e) {
-				//
+				e.printStackTrace();
 			}
 		}
 
-
-		System.out.println("Threads are done");
-		//		Thread t1 = new Thread(new MyRunnable(iterations, endTime));
-		//		Thread t2 = new Thread(new MyRunnable(iterations, endTime));
-		//		t1.start();
-		//		t2.start();
-		//				while (System.currentTimeMillis() < endTime) {
-		//					TreeNode current = getMaxLeaf(root);
-		//					TreeNode child = current.expand();
-		//
-		//					// Check if we reached a terminal state while expanding
-		//					if (child == null) {
-		//						backpropagate(current, current.state.getOpponent());
-		//						continue;
-		//					}
-		//
-		//					int winner = playthrough(child);
-		//					backpropagate(child, winner);
-		//
-		//					iterations++;
-		//				}
 		System.out.println("***** TOTAL ITERATIONS: " + iterations + " *****");
 
 		root = getBestMove(root);
 		AmazonsAction action = root.getAction();
 		sendMove(action.queenCurrent, action.queenTarget, action.arrowTarget);
-	}
-
-	private class MyRunnable implements Runnable {
-		long endTime;
-		TreeNode root;
-		public int iterations;
-
-		public MyRunnable(long endTime, TreeNode root) {
-			this.endTime = endTime;
-			this.root = root;
-			iterations = 0;
-		}
-
-		@Override
-		public void run() {
-			 while (System.currentTimeMillis() < endTime) {
-				TreeNode current = getMaxLeaf(root);
-				TreeNode child = current.expand();
-
-				// Check if we reached a terminal state while expanding
-				if (child == null) {
-					backpropagate(current, current.state.getOpponent());
-					continue;
-				}
-
-				int winner = playthrough(child);
-				backpropagate(child, winner);
-
-				iterations++;
-			}
-		}
 	}
 
 	private TreeNode getBestMove(TreeNode root) {
@@ -219,6 +178,37 @@ public class MonteCarloPlayer extends LocalPlayer {
 		}
 
 		return current;
+	}
+
+	private class MonteCarloRunnable implements Runnable {
+		TreeNode root;
+		long endTime;
+		public int iterations;
+
+		public MonteCarloRunnable(TreeNode root, long endTime) {
+			this.root = root;
+			this.endTime = endTime;
+			iterations = 0;
+		}
+
+		@Override
+		public void run() {
+			while (System.currentTimeMillis() < endTime) {
+				TreeNode current = getMaxLeaf(root);
+				TreeNode child = current.expand();
+
+				// Check if we reached a terminal state while expanding
+				if (child == null) {
+					backpropagate(current, current.state.getOpponent());
+					continue;
+				}
+
+				int winner = playthrough(child);
+				backpropagate(child, winner);
+
+				iterations++;
+			}
+		}
 	}
 
 	private class TreeNode {
